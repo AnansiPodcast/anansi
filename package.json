@@ -1,0 +1,25 @@
+{
+  "name": "podcast-desktop",
+  "version": "1.0.0",
+  "description": "A Podcast app for Desktop",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "gulp; electron ./dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sergiovilar/podcast-desktop.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sergiovilar/podcast-desktop/issues"
+  },
+  "homepage": "https://github.com/sergiovilar/podcast-desktop#readme",
+  "dependencies": {
+    "gulp-babel": "^6.1.0",
+    "gulp-sass": "^2.1.0",
+    "lowdb": "^0.10.2"
+  }
+}

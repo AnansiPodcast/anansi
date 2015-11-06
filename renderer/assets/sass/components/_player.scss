@@ -1,0 +1,54 @@
+#music {
+  display: none;
+}
+
+#audioplayer{
+	width: 100%;
+	height: 61px;
+  background: rgba(230,230,230,1);
+  background: -moz-linear-gradient(top, rgba(230,230,230,1) 0%, rgba(207,207,207,1) 100%);
+  background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(230,230,230,1)), color-stop(100%, rgba(207,207,207,1)));
+  background: -webkit-linear-gradient(top, rgba(230,230,230,1) 0%, rgba(207,207,207,1) 100%);
+  background: -o-linear-gradient(top, rgba(230,230,230,1) 0%, rgba(207,207,207,1) 100%);
+  background: -ms-linear-gradient(top, rgba(230,230,230,1) 0%, rgba(207,207,207,1) 100%);
+  background: linear-gradient(to bottom, rgba(230,230,230,1) 0%, rgba(207,207,207,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e6e6e6', endColorstr='#cfcfcf', GradientType=0 );
+  border-top:1px solid rgba(213, 213, 213, 1);
+}
+
+.desc {
+  text-align: center;
+  padding-top:8px;
+}
+
+#pButton{
+    height:60px;
+    width: 60px;
+    border: none;
+    background-size: 50% 50%;
+    background-repeat: no-repeat;
+    background-position: center;
+    float:left;
+    outline:none;
+}
+
+.play{background: url('http://www.alexkatz.me/codepen/images/play.png') ;}
+.pause{background: url('http://www.alexkatz.me/codepen/images/pause.png') ;}
+
+#timeline{
+	width: calc(100% - 70px);
+	height: 5px;
+	margin-top: 13px;
+	float: left;
+	border-radius: 15px;
+	background: rgba(0,0,0,.3);
+
+}
+#playhead{
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	background: rgba(0, 0, 0,1);
+  position: relative;
+  top:-4px;
+}
