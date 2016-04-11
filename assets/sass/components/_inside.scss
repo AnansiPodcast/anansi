@@ -21,3 +21,39 @@ header.inside {
     cursor: pointer;  
   }
 }
+
+.podcast-item {
+  clear:both;
+  
+  figure {
+    width: 8%;    
+    float:left;
+    margin:15px;
+    img {
+      width: 100%;
+    }
+  }
+
+  .podcast-content {
+    float:left;
+    width: 95%;
+    padding-left: 25px;
+    
+    &.with-image {
+      padding-left:0;
+      width: 86%;
+    }
+  
+    h2 {
+      font-size: 18px;
+      margin-top: 10px;
+      margin-bottom: 0;
+    }
+
+    p {
+      margin-top:0;
+    }
+
+  }
+
+}
