@@ -13,6 +13,13 @@
       <div class="pane-group">
         <div class="pane pane-sm sidebar" ng-controller="PodcastListController">
           <ul id="podcast-list" class="list-group">
+          <li ng-class="{'list-group-item': true, active: selected == 'recent'}" ng-click="loadRecent()">
+              <img class="img-circle media-object pull-left" src="assets/images/clock.png" width="32" height="32">
+              <div class="media-body">
+                <strong>Recent updates</strong>
+                <p>{{total}} episodes</p>
+              </div>
+            </li>  
             <li ng-class="{'list-group-item': true, active: selected == pod.id}" ng-repeat="pod in podcasts" ng-click="load(pod.id)">
               <img class="img-circle media-object pull-left" src="{{pod.image}}" width="32" height="32">
               <div class="media-body">

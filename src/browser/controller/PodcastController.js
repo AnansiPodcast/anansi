@@ -55,7 +55,11 @@ class PodcastController {
     })
 
     pod.episodes.forEach((item) => {
-      Episode.push(Merge(item, {podcast_id: id}))
+      var published_time = new Date(item.published).getTime();
+      Episode.push(Merge(item, {
+        podcast_id: id,
+        published_time: published_time
+      }))
     })
     return true
   }

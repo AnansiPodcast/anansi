@@ -36,6 +36,12 @@ gulp.task ('font', function() {
 	  .pipe(gulp.dest('./compile/assets/fonts'))
 });
 
+gulp.task ('images', function() {
+  return gulp.src('./assets/images/*')
+    .pipe(gulp.dest('./compile/assets/images'))
+});
+
+
 gulp.task ('index', function() {
 	return gulp.src(['./src/index.html'])
 	  .pipe(gulp.dest('./compile'))
@@ -62,4 +68,4 @@ gulp.task('vendor-css', function() {
     .pipe(gulp.dest('./compile/assets/css'));
 });
 
-gulp.task('assets', ['index', 'renderer', 'sass', 'style', 'font', 'vendor', 'vendor-css', 'views']);
+gulp.task('assets', ['index', 'renderer', 'sass', 'style', 'font', 'images','vendor', 'vendor-css', 'views']);
