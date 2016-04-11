@@ -29,13 +29,13 @@
       </div>
     </div>
 
-    <footer>
-      <audio id="music" controls="controls" preload="true">
-        <source src="http://ripa.podbean.com/mf/feed/zexcbh/iradex-podcast-080.mp3" type="audio/mpeg" />
+    <footer ng-controller="PlayerController">
+      <audio id="music" controls="controls" label="{{episode.title}}" preload="true" oncanplaythrough="readyToPlay()">
+        <source src="" type="audio/mpeg" />
       </audio>
       <div id="audioplayer">
         <button id="pButton" class="play" onclick="play()"></button>
-        <div class="desc">Iradex Podcast 80</div>
+        <div class="desc"></div>
         <div id="timeline">
           <div id="playhead"></div>
         </div>
@@ -44,6 +44,11 @@
 
   </div>
 </body>
+  <script type="text/javascript">
+    window.alertify = require('alertify.js');
+    window.$ = require('jquery');
+    window.jQuery = $
+  </script>
   <script type="text/javascript" src="./vendor.js"></script>
   <script type="text/javascript" src="./renderer.js"></script>
 </html>

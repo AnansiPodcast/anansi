@@ -5,7 +5,6 @@ var gulp = require("gulp")
   , babel = require("gulp-babel");
 
 var vendors = [
-  'node_modules/jquery/dist/jquery.js',
   'node_modules/angular/angular.js',  
   'node_modules/angular-route/angular-route.js',
   'node_modules/alertify.js/dist/js/ngAlertify.js',

@@ -9,4 +9,8 @@ app.controller('PodcastDetailController', ['$scope', '$rootScope', '$routeParams
       .filter({podcast_id: $routeParams.id})
       .value();
 
+  $scope.play = (episode) => {
+    $rootScope.$broadcast('episode.play', episode);
+  }
+
 }]);

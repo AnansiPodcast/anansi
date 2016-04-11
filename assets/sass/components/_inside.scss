@@ -24,6 +24,7 @@ header.inside {
 
 .podcast-item {
   clear:both;
+  cursor:pointer;
   
   figure {
     width: 8%;    
@@ -36,6 +37,7 @@ header.inside {
 
   .podcast-content {
     float:left;
+    cursor:pointer;
     width: 95%;
     padding-left: 25px;
     

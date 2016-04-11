@@ -11,7 +11,7 @@
     <figure ng-hide="!episode.hasOwnProperty('image')">
       <img src="{{episode.image}}" alt="">
     </figure>
-    <div ng-class="{'podcast-content': true, 'with-image': episode.hasOwnProperty('image')}">
+    <div ng-dblclick="play(episode)" ng-class="{'podcast-content': true, 'with-image': episode.hasOwnProperty('image')}">
       <h2>{{episode.title}}</h2>
       <p>{{episode.description}}</p>
     </div>

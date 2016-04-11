@@ -1,6 +1,4 @@
 import Electron from 'electron'
-import alertify from 'alertify.js'
-window.alertify = alertify
 
 const remote = Electron.remote
 const ipcRenderer = Electron.ipcRenderer

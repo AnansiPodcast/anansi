@@ -1,4 +1,4 @@
-var music = document.getElementById('music'); // id for audio element
+var music = document.getElementById('music');
 var duration; // Duration of audio clip
 var pButton = document.getElementById('pButton'); // play button
 
@@ -88,7 +88,25 @@ function play() {
 	}
 }
 
+function setLabel(label) {
+	$('#audioplayer .desc').text(label);
+}
+
+function updateSong(episode) {	
+	setLabel('Loading...');
+	music.setAttribute('src', episode.enclosure.url);
+	music.load();
+	music.play();
+	timeUpdate();
+	pButton.className = "";
+	pButton.className = "pause";
+}
+
 // Gets audio file duration
 music.addEventListener("canplaythrough", function () {
 	duration = music.duration;
 }, false);
+
+function readyToPlay() {
+	setLabel($('#music').attr('label'));
+}
