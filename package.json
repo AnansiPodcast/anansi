@@ -18,10 +18,20 @@
   },
   "homepage": "https://github.com/sergiovilar/podcast-desktop#readme",
   "dependencies": {
+    "alertify.js": "^1.0.10",
     "angular": "^1.5.3",
     "angular-route": "^1.5.3",
-    "lowdb": "^0.10.2",
-    "node-uuid": "^1.4.7"
+    "dialogs": "^1.1.12",
+    "electron-default-menu": "^0.1.1",
+    "jquery": "^2.2.3",
+    "lowdb": "^0.12.5",
+    "merge": "^1.2.0",
+    "node-podcast-parser": "^1.0.1",
+    "node-uuid": "^1.4.7",
+    "q": "^1.4.1",
+    "q-io": "^1.13.2",
+    "uuid": "^2.0.1",
+    "validator": "^5.2.0"
   },
   "devDependencies": {
     "gulp": "^3.9.1",

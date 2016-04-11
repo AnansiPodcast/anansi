@@ -1,5 +1,13 @@
-const app = angular.module('series-subtitles', ['ngRoute']);
-const remote = require('electron').remote;
+import Electron from 'electron'
+import alertify from 'alertify.js'
+window.alertify = alertify
+
+const remote = Electron.remote
+const ipcRenderer = Electron.ipcRenderer
+const uuid = remote.require('uuid');
+const app = angular.module('podcast-desktop', ['ngRoute']);
+
+remote.getCurrentWindow().toggleDevTools()
 
 app.config(['$routeProvider', $routeProvider => {
     $routeProvider.

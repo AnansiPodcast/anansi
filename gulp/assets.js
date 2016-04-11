@@ -5,9 +5,15 @@ var gulp = require("gulp")
   , babel = require("gulp-babel");
 
 var vendors = [
-  'node_modules/angular/angular.js',
+  'node_modules/jquery/dist/jquery.js',
+  'node_modules/angular/angular.js',  
   'node_modules/angular-route/angular-route.js',
+  'node_modules/alertify.js/dist/js/ngAlertify.js',
   'src/renderer/lib/player.js',
+];
+
+var vendorsCSS = [
+  'node_modules/alertify.js/dist/css/alertify.css',
 ];
 
 gulp.task('sass', function () {
@@ -32,7 +38,7 @@ gulp.task ('font', function() {
 });
 
 gulp.task ('index', function() {
-	return gulp.src(['./src/index.html', './src/index.js'])
+	return gulp.src(['./src/index.html'])
 	  .pipe(gulp.dest('./compile'))
 });
 
@@ -51,4 +57,10 @@ gulp.task('vendor', function() {
     .pipe(gulp.dest('./compile'));
 });
 
-gulp.task('assets', ['index', 'renderer', 'sass', 'style', 'font', 'vendor', 'views']);
+gulp.task('vendor-css', function() {
+  return gulp.src(vendorsCSS)
+    .pipe(concat('vendor.css'))
+    .pipe(gulp.dest('./compile/assets/css'));
+});
+
+gulp.task('assets', ['index', 'renderer', 'sass', 'style', 'font', 'vendor', 'vendor-css', 'views']);
