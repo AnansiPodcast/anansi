@@ -13,14 +13,10 @@ remote.getCurrentWindow().toggleDevTools()
 
 app.config(['$routeProvider', $routeProvider => {
     $routeProvider.
-      // when('/add', {
-      //   templateUrl: 'renderer/view/add.html',
-      //   controller: 'AddSerieController'
-      // }).
-      // when('/subtitles/:serieId', {
-      //   templateUrl: 'renderer/view/subtitles.html',
-      //   controller: 'SubtitleListController'
-      // }).
+      when('/podcast/:id', {
+        templateUrl: 'renderer/view/podcast.html',
+        controller: 'PodcastDetailController'
+      }).
       otherwise({
         redirectTo: '/'
       });

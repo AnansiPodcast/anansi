@@ -1,6 +1,6 @@
 header.inside {
 
-  padding:20px;
+  padding:0;
 
   .profile {
     img {
@@ -16,5 +16,8 @@ header.inside {
 }
 
 #podcast-list {
-  padding-top:22px
+  padding-top: 22px;
+  li, li > *{
+    cursor: pointer;  
+  }
 }

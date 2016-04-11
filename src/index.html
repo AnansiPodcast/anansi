@@ -13,7 +13,7 @@
       <div class="pane-group">
         <div class="pane pane-sm sidebar" ng-controller="PodcastListController">
           <ul id="podcast-list" class="list-group">
-            <li class="list-group-item" ng-repeat="pod in podcasts">
+            <li ng-class="{'list-group-item': true, active: selected == pod.id}" ng-repeat="pod in podcasts" ng-click="load(pod.id)">
               <img class="img-circle media-object pull-left" src="{{pod.image}}" width="32" height="32">
               <div class="media-body">
                 <strong>{{pod.name}}</strong>
@@ -24,45 +24,7 @@
         </div>
 
         <div class="pane">
-          <header class="inside">
-            <div class="profile">
-              <img src="http://is4.mzstatic.com/image/thumb/Music5/v4/5a/4f/20/5a4f206f-936f-d049-2c82-d4406d0394f9/source/1400x1400sr.jpg" alt="">
-              <h1>Iradex</h1>
-              <p>Lugar de coisas boas</p>
-            </div>
-            <button class="btn btn-large btn-default">Unsubscribe</button>
-          </header>
-          <table class="table-striped">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Kind</th>
-                <th>File Size</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>photon.css</td>
-                <td>CSS</td>
-                <td>28K</td>
-              </tr>
-              <tr>
-                <td>photon.css</td>
-                <td>CSS</td>
-                <td>28K</td>
-              </tr>
-              <tr>
-                <td>photon.css</td>
-                <td>CSS</td>
-                <td>28K</td>
-              </tr>
-              <tr>
-                <td>photon.css</td>
-                <td>CSS</td>
-                <td>28K</td>
-              </tr>
-            </tbody>
-          </table>
+          <div ng-view></div>
         </div>
       </div>
     </div>
