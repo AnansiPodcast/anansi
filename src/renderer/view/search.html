@@ -1,0 +1,22 @@
+<header class="inside">
+  <div class="profile">
+    <img src="./assets/images/clock.png" />
+    <h1>Search Podcasts</h1>
+    <p>Search your favorite podcast on itunes</p>
+  </div>
+</header>
+<div class="content">
+  <form novalidate name="formSearch" ng-submit="formSearch.$valid && search(term)">
+    <input required type="search" name="term" placeholder="Search a podcast..." ng-model="term" ng-change="formSearch.$valid && search(term)">
+    <button type="submit">Search</button>
+  </form>
+  <article class="podcast-item" ng-repeat="cast in casts | limitTo:20">
+    <figure>
+      <img ng-src="{{cast.artworkUrl30}}" alt="">
+    </figure>
+    <div class="podcast-content with-image">
+      <h2>{{cast.artistName}}</h2>
+      <p>{{cast.collectionName}}</p>
+    </div>
+  </article>
+</div>
