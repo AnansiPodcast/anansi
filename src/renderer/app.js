@@ -7,6 +7,8 @@ const ipcRenderer = Electron.ipcRenderer
 const uuid = remote.require('uuid');
 const app = angular.module('podcast-desktop', ['ngRoute']);
 
+alertify.logPosition("top right");
+
 remote.getCurrentWindow().toggleDevTools()
 
 app.config(['$routeProvider', $routeProvider => {
