@@ -34,6 +34,15 @@ class PodcastController {
     })
   }
 
+  static searchOnItunes(term) {
+    return HTTP.read({
+      url: 'https://itunes.apple.com/search?media=podcast&term='+term,
+      method: 'GET'
+    }).then((data) => {
+      return JSON.parse(data.toString())
+    })
+  }
+
   static processFeed(response) {
     const deferred = Q.defer();
     Parser(response, (err, data) => {
