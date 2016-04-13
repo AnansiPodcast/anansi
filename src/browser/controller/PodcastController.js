@@ -27,15 +27,6 @@ class PodcastController {
     })
   }
 
-  static searchOnItunes(term) {
-    return HTTP.read({
-      url: `https://itunes.apple.com/search?media=podcast&term=${term}`,
-      method: 'GET'
-    }).then((data) => {
-      return JSON.parse(data.toString()).results;
-    })
-  }
-
   static processFeed(response) {
     const deferred = Q.defer();
     Parser(response, (err, data) => {
@@ -53,7 +44,7 @@ class PodcastController {
     const id = uuid()
     const existent = Podcast.find({url: url});
     if(existent) return;
-
+    
     Podcast.push({
       id: id,
       url: url,
