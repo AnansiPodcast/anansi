@@ -7,6 +7,11 @@ app.controller('PodcastListController', ['$scope', '$rootScope', '$location', ($
   $scope.selected = 'recent';
   $scope.total = Episode.chain().value().length;
 
+  $scope.browsePodcasts = () => {
+    $scope.selected = 'browse';
+    $location.path("/browse-podcasts");
+  }
+
   $scope.load = (id) => {
     $scope.selected = id;
     $location.path( "/podcast/"+id );
@@ -17,7 +22,7 @@ app.controller('PodcastListController', ['$scope', '$rootScope', '$location', ($
     $location.path("/recent");
   }
 
-  ipcRenderer.on('ui.helper.addPodcast', (event, arg) => {    
+  ipcRenderer.on('ui.helper.addPodcast', (event, arg) => {
     alertify.prompt("Insert Podcast URL", (val, ev) => {
         ev.preventDefault();
         PodcastController.add(val).then(() => {
@@ -27,7 +32,7 @@ app.controller('PodcastListController', ['$scope', '$rootScope', '$location', ($
           $scope.total = Episode.chain().value().length;
           $scope.$apply();
         })
-    })      
+    })
   });
 
 }]);

@@ -9,6 +9,8 @@ import Episode from '../model/Episode.js'
 
 class PodcastController {
 
+  static get itunesSearchUrl() { return 'https://itunes.apple.com/search?media=podcast' }
+
   static add(url) {
     return this.getFeed(url)
     .then((response) => {
@@ -25,6 +27,17 @@ class PodcastController {
       url: url,
       method: 'GET'
     })
+  }
+
+  static itunesParse(data) {
+    return JSON.parse(data.toString());
+  }
+
+  static searchOnItunes(term) {
+    return HTTP.read({
+      url: `${this.itunesSearchUrl}&term=${term}`,
+      method: 'GET'
+    });
   }
 
   static processFeed(response) {
@@ -44,7 +57,7 @@ class PodcastController {
     const id = uuid()
     const existent = Podcast.find({url: url});
     if(existent) return;
-    
+
     Podcast.push({
       id: id,
       url: url,

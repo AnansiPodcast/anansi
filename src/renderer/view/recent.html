@@ -8,7 +8,7 @@
 <div class="content">
   <article class="podcast-item" ng-repeat="episode in episodes | limitTo:20">
     <figure>
-      <img src="{{episode.image || episode.podcast.image}}" alt="">
+      <img ng-src="{{episode.image || episode.podcast.image}}" alt="">
     </figure>
     <div ng-dblclick="play(episode)" class="podcast-content with-image">
       <h2>{{episode.title}}</h2>
@@ -16,4 +16,3 @@
     </div>
   </article>
 </div>
-

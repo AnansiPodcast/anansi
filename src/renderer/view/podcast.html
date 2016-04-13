@@ -1,6 +1,6 @@
 <header class="inside">
   <div class="profile">
-    <img src="{{podcast.image}}" alt="">
+    <img ng-src="{{podcast.image}}" alt="">
     <h1>{{podcast.name}}</h1>
     <p>{{podcast.description.short}}</p>
   </div>
@@ -9,7 +9,7 @@
 <div class="content">
   <article class="podcast-item" ng-repeat="episode in episodes">
     <figure ng-hide="!episode.hasOwnProperty('image')">
-      <img src="{{episode.image}}" alt="">
+      <img ng-src="{{episode.image}}" alt="">
     </figure>
     <div ng-dblclick="play(episode)" ng-class="{'podcast-content': true, 'with-image': episode.hasOwnProperty('image')}">
       <h2>{{episode.title}}</h2>
@@ -17,4 +17,3 @@
     </div>
   </article>
 </div>
-
