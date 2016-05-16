@@ -7,7 +7,10 @@ app.controller('PodcastDetailController', ['$scope', '$rootScope', '$routeParams
   $scope.episodes = Episode
       .chain()
       .filter({podcast_id: $routeParams.id})
-      .value();
+      .sortBy('published_time')
+      .take(20)
+      .value()
+      .reverse();
 
   $scope.play = (episode) => {
     $rootScope.$broadcast('episode.play', episode);

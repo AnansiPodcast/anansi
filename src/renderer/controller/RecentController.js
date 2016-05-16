@@ -11,7 +11,7 @@ app.controller('RecentController', ['$scope', '$rootScope', ($scope, $rootScope)
       .sortBy('published_time')
       .value()
       .reverse();
-    var _eps = [];    
+    var _eps = [];
     eps.forEach((item) => {
       if(typeof podcasts[item.podcast_id] == 'undefined')
         podcasts[item.podcast_id] = Podcast.find({ id: item.podcast_id });
@@ -22,6 +22,11 @@ app.controller('RecentController', ['$scope', '$rootScope', ($scope, $rootScope)
   }
 
   $scope.episodes = getEpisodes();
+
+  ipcRenderer.on('model.changed.Episode', (event, arg) => {
+    $scope.episodes = getEpisodes();
+    $scope.$apply();
+  })
 
   $scope.play = (episode) => {
     $rootScope.$broadcast('episode.play', episode);
