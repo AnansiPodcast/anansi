@@ -7,7 +7,7 @@ const app = angular.module('podcast-desktop', ['ngRoute']);
 
 alertify.logPosition("top right");
 
-remote.getCurrentWindow().toggleDevTools()
+// remote.getCurrentWindow().toggleDevTools()
 
 app.config(['$routeProvider', $routeProvider => {
     $routeProvider.

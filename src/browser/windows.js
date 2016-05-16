@@ -1,4 +1,4 @@
-import BrowserWindow from 'browser-window'
+import {BrowserWindow} from 'electron'
 let instance = null
 
 class Windows {
@@ -16,11 +16,11 @@ class Windows {
       height: 720,
       minWidth: 500,
       minHeight: 200,
-      'accept-first-mouse': true,
-      'title-bar-style': 'hidden'
+      acceptFirstMouse: true,
+      titleBarStyle: 'hidden'
     });
 
-    this.mainWindow.loadUrl('file://' + __dirname + '/../index.html');
+    this.mainWindow.loadURL('file://' + __dirname + '/../index.html');
     this.mainWindow.on('closed', () => {
       this.mainWindow = null
     });

@@ -1,4 +1,4 @@
-import Menu from 'menu'
+import {Menu} from 'electron'
 import defaultMenu from 'electron-default-menu'
 import Dialogs from 'dialogs'
 import Windows from './windows.js'

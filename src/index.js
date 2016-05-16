@@ -1,12 +1,8 @@
-import app from 'app'
-import Menu from 'menu'
-import MenuItem from 'menu-item'
+import {crashReporter, app} from 'electron'
 import Iinitializer from './browser/initializer.js'
 import Windows from './browser/windows.js'
 
-require('crash-reporter').start();
-
-let mainWindow = null
+// crashReporter.start();
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit();
