@@ -4,7 +4,7 @@
     <h1>{{podcast.name}}</h1>
     <p>{{podcast.description.short}}</p>
   </div>
-  <button class="btn btn-large btn-default">Unsubscribe</button>
+  <button ng-click="unsubscribe()" class="btn btn-large btn-default">Unsubscribe</button>
 </header>
 <div class="content">
   <article class="podcast-item" ng-repeat="episode in episodes">

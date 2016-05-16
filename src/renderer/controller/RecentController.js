@@ -12,12 +12,12 @@ app.controller('RecentController', ['$scope', '$rootScope', ($scope, $rootScope)
       .reverse()
       .take(100)
       .value()
-    var _eps = [];
+    var _eps = []
     eps.forEach((item) => {
       if(typeof podcasts[item.podcast_id] == 'undefined')
-        podcasts[item.podcast_id] = Podcast.find({ id: item.podcast_id });
+        podcasts[item.podcast_id] = Podcast.find({ id: item.podcast_id })
       item.podcast = podcasts[item.podcast_id]
-      _eps.push(item);
+      _eps.push(item)
     })
     return _eps;
   }
@@ -25,16 +25,17 @@ app.controller('RecentController', ['$scope', '$rootScope', ($scope, $rootScope)
   $scope.episodes = getEpisodes();
 
   ipcRenderer.on('model.changed.Episode', (event, arg) => {
-    $scope.episodes = getEpisodes();
-    $scope.$apply();
+    $scope.episodes = getEpisodes()
+    $scope.$apply()
+  })
+
+  ipcRenderer.on('podcast.model.changed', () => {
+    $scope.episodes = getEpisodes()
+    $scope.$apply()
   })
 
   $scope.play = (episode) => {
     $rootScope.$broadcast('episode.play', episode);
   }
-
-  $rootScope.$on('podcast-added', () => {
-    $scope.episodes = getEpisodes();
-  })
 
 }]);

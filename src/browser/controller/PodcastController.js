@@ -4,6 +4,7 @@ import Parser from 'node-podcast-parser'
 import Validator from 'validator'
 import uuid from 'uuid'
 import Podcast from '../model/Podcast.js'
+import Episode from '../model/Episode.js'
 import EpisodesController from './EpisodesController.js'
 import Windows from '../windows.js'
 
@@ -18,6 +19,12 @@ class PodcastController {
     .then((podcast) => {
       return this.insert(podcast, url)
     })
+  }
+
+  static remove(podcast_id) {
+    Podcast.remove({ id: podcast_id })
+    Episode.remove({ podcast_id: podcast_id })
+    Windows.mainWindow.webContents.send('podcast.model.changed', true)
   }
 
   static getFeed(url) {
@@ -57,6 +64,9 @@ class PodcastController {
     pod.episodes.forEach((item) => {
       EpisodesController.insert(item, id)
     })
+
+    Windows.mainWindow.webContents.send('podcast.model.changed', true)
+
     return true
   }
 

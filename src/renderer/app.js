@@ -23,6 +23,16 @@ app.config(['$routeProvider', $routeProvider => {
     })
 }])
 
+// Add a new podcast
+ipcRenderer.on('ui.helper.addPodcast', (event, arg) => {
+  alertify.prompt("Insert Podcast URL", (val, ev) => {
+    ev.preventDefault();
+    PodcastController.add(val).then(() => {
+      alertify.success("Sucessfully added Podcast");
+    })
+  })
+});
+
 // Events
 document.querySelector('#add-subscription').addEventListener('click', () => {
   remote.getCurrentWindow().webContents.send('ui.helper.addPodcast', true)
