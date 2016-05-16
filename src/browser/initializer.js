@@ -10,8 +10,16 @@ class Initializer {
 
   setup() {
     this.menu = new AppMenu()
-    PodcastController.fetch() // Calls when the app opens
-    setInterval(PodcastController.fetch, this.fetchInterval * 60 * 1000)
+    this.setupIntervals()
+  }
+
+  setupIntervals() {
+    setTimeout(() => {
+      PodcastController.fetch()
+    }, 5 * 1000)
+    setInterval(() => {
+      PodcastController.fetch()
+    }, this.fetchInterval * 60 * 1000)
   }
 
 }

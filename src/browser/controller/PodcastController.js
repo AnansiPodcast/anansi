@@ -61,7 +61,10 @@ class PodcastController {
   }
 
   static fetchIndividual(podcasts, counter, window) {
-    if(typeof podcasts[counter] === 'undefined') return
+    if(typeof podcasts[counter] === 'undefined') {
+      return
+      Windows.mainWindow.webContents.send('notify.fetch.ended', true);
+    }
     const pod = podcasts[counter]
     return this.getFeed(pod.url)
     .then((response) => {
@@ -81,6 +84,7 @@ class PodcastController {
   }
 
   static fetch() {
+    Windows.mainWindow.webContents.send('notify.fetch.started', true);
     this.fetchIndividual(Podcast.chain().value(), 0)
   }
 

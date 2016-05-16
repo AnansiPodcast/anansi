@@ -8,7 +8,18 @@
 </head>
 <body ng-app="podcast-desktop">
   <div class="window">
-
+    <header class="toolbar toolbar-header">
+      <h1 class="title">Anansi</h1>
+      <div class="toolbar-actions">
+        <button id="add-subscription" class="btn btn-default">
+          <span class="icon icon-plus icon-text"></span>
+          Add Subscription
+        </button>
+        <button id="refresh" class="btn btn-default">
+          <span class="icon icon-ccw"></span>
+        </button>
+      </div>
+    </header>
     <div class="window-content">
       <div class="pane-group">
         <div class="pane pane-sm sidebar" ng-controller="PodcastListController">
@@ -19,14 +30,14 @@
                 <strong>Recent updates</strong>
                 <p>{{total}} episodes</p>
               </div>
-            </li>  
+            </li>
             <li ng-class="{'list-group-item': true, active: selected == pod.id}" ng-repeat="pod in podcasts" ng-click="load(pod.id)">
               <img class="img-circle media-object pull-left" ng-src="{{pod.image}}" width="32" height="32">
               <div class="media-body">
                 <strong>{{pod.name}}</strong>
                 <p>{{pod.description.short}}</p>
               </div>
-            </li>           
+            </li>
           </ul>
         </div>
 

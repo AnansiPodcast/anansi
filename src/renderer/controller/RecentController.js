@@ -9,8 +9,9 @@ app.controller('RecentController', ['$scope', '$rootScope', ($scope, $rootScope)
     var eps = Episode
       .chain()
       .sortBy('published_time')
+      .reverse()
+      .take(100)
       .value()
-      .reverse();
     var _eps = [];
     eps.forEach((item) => {
       if(typeof podcasts[item.podcast_id] == 'undefined')
