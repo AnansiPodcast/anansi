@@ -5,14 +5,15 @@ var gulp = require("gulp")
   , babel = require("gulp-babel");
 
 var vendors = [
-  'node_modules/angular/angular.js',  
+  'node_modules/angular/angular.js',
   'node_modules/angular-route/angular-route.js',
   'node_modules/alertify.js/dist/js/ngAlertify.js',
-  'src/renderer/lib/player.js',
+  'bower_components/amplitude/js/amplitude.js'
 ];
 
 var vendorsCSS = [
   'node_modules/alertify.js/dist/css/alertify.css',
+  'assets/css/player.css'
 ];
 
 gulp.task('sass', function () {

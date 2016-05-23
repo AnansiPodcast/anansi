@@ -8,6 +8,11 @@ const PodcastController = remote.require('./browser/controller/PodcastController
 
 alertify.logPosition("top right")
 
+Amplitude.init({
+  'dynamic_mode': true,
+  'default_album_art': "assets/images/no-cover.png"
+})
+
 app.config(['$routeProvider', $routeProvider => {
   $routeProvider.
    when('/recent', {
@@ -32,6 +37,19 @@ ipcRenderer.on('ui.helper.addPodcast', (event, arg) => {
     })
   })
 });
+
+// Window actions
+$('.titlebar-close').on('click', () => {
+  remote.getCurrentWindow().close()
+})
+
+$('.titlebar-minimize').on('click', () => {
+  remote.getCurrentWindow().minimize()
+})
+
+$('.titlebar-fullscreen').on('click', () => {
+  remote.getCurrentWindow().setFullScreen(!remote.getCurrentWindow().isFullScreen())
+})
 
 // Events
 document.querySelector('#add-subscription').addEventListener('click', () => {

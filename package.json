@@ -4,8 +4,8 @@
   "description": "A Podcast app for Desktop",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "gulp; electron ./compile"
+    "start": "gulp; electron ./compile",
+    "install": "bower install"
   },
   "repository": {
     "type": "git",
