@@ -46,7 +46,7 @@
           </button>
           <button id="add-subscription" class="btn btn-default">
             <span class="icon icon-plus icon-text"></span>
-            Add Subscription
+            Add Podcast
           </button>
       </div>
       </div>
@@ -55,7 +55,7 @@
       <div class="pane-group">
         <div class="pane pane-sm sidebar" ng-controller="PodcastListController">
           <ul id="podcast-list" class="list-group">
-          <li ng-class="{'list-group-item': true, active: selected == 'recent'}" ng-click="loadRecent()">
+            <li ng-class="{'list-group-item': true, active: selected == 'recent'}" ng-click="loadRecent()">
               <img class="img-circle media-object pull-left" src="assets/images/clock.png" width="32" height="32">
               <div class="media-body">
                 <strong>Recent updates</strong>
@@ -79,7 +79,7 @@
     </div>
 
   </div>
-</body>
+
   <script type="text/javascript">
     window.alertify = require('alertify.js');
     window.$ = require('jquery');
@@ -87,4 +87,6 @@
   </script>
   <script type="text/javascript" src="./vendor.js"></script>
   <script type="text/javascript" src="./renderer.js"></script>
+
+</body>
 </html>

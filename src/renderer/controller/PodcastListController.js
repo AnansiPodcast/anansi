@@ -7,6 +7,11 @@ app.controller('PodcastListController', ['$scope', '$rootScope', '$location', ($
   $scope.selected = 'recent';
   $scope.total = Episode.chain().value().length;
 
+  $scope.browsePodcasts = () => {
+    $scope.selected = 'browse';
+    $location.path("/browse-podcasts");
+  }
+
   $scope.load = (id) => {
     $scope.selected = id;
     $location.path( "/podcast/"+id );
@@ -15,6 +20,11 @@ app.controller('PodcastListController', ['$scope', '$rootScope', '$location', ($
   $scope.loadRecent = () => {
     $scope.selected = 'recent';
     $location.path("/recent");
+  }
+
+  window.resetSidebar = () => {
+    $scope.selected = '';
+    $scope.$apply();
   }
 
   ipcRenderer.on('podcast.model.changed', () => {
