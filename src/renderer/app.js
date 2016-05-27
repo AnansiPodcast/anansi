@@ -15,7 +15,11 @@ Amplitude.init({
 
 app.config(['$routeProvider', $routeProvider => {
   $routeProvider.
-   when('/recent', {
+    when('/search', {
+      templateUrl: 'renderer/view/itunes-search.html',
+      controller: 'ItunesSearchController'
+    }).
+    when('/recent', {
       templateUrl: 'renderer/view/recent.html',
       controller: 'RecentController'
     }).
@@ -29,13 +33,16 @@ app.config(['$routeProvider', $routeProvider => {
 }])
 
 // Add a new podcast
-ipcRenderer.on('ui.helper.addPodcast', (event, arg) => {
+function askForFeed() {
   alertify.prompt("Insert Podcast URL", (val, ev) => {
     ev.preventDefault();
     PodcastController.add(val).then(() => {
       alertify.success("Sucessfully added Podcast");
     })
   })
+}
+ipcRenderer.on('ui.helper.addPodcast', (event, arg) => {
+  askForFeed()
 });
 
 // Window actions
@@ -53,7 +60,8 @@ $('.titlebar-fullscreen').on('click', () => {
 
 // Events
 document.querySelector('#add-subscription').addEventListener('click', () => {
-  remote.getCurrentWindow().webContents.send('ui.helper.addPodcast', true)
+  resetSidebar()
+  location.href = '#/search'
 })
 
 document.querySelector('#refresh').addEventListener('click', () => {
@@ -68,4 +76,3 @@ ipcRenderer.on('notify.fetch.started', () => {
 ipcRenderer.on('notify.fetch.ended', () => {
   alertify.success("Episodes up to date");
 })
-

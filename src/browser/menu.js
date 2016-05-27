@@ -15,7 +15,7 @@ class AppMenu {
     this.template = defaultMenu()
     this.addMenu(1, 'File', [
       {
-        label: 'Add Podcast',
+        label: 'Add Podcast by URL',
         click: (item, focusedWindow) => {
           this.mainWindow.webContents.send('ui.helper.addPodcast', true);
         }

@@ -9,17 +9,17 @@
 <body ng-app="podcast-desktop">
   <div class="window">
     <header>
-      <div id="top-bar" ng-controller="PlayerController">
+      <div id="top-bar" class="drag" ng-controller="PlayerController">
         <div class="player-left">
-          <div class="titlebar-stoplight">
+          <div class="titlebar-stoplight no-drag">
             <div class="titlebar-close"></div>
             <div class="titlebar-minimize"></div>
             <div class="titlebar-fullscreen"></div>
           </div>
           <div id="large-player-controls">
-            <div class="amplitude-prev" id="previous"></div>
-            <div class="amplitude-play-pause amplitude-paused" amplitude-main-play-pause="true" id="play-pause"></div>
-            <div class="amplitude-next" id="next"></div>
+            <div class="amplitude-prev no-drag" id="previous"></div>
+            <div class="amplitude-play-pause amplitude-paused no-drag" amplitude-main-play-pause="true" id="play-pause"></div>
+            <div class="amplitude-next no-drag" id="next"></div>
           </div>
         </div>
 
@@ -36,17 +36,17 @@
             <div class="time-duration" ng-show="show">
               <span class="amplitude-duration-minutes" amplitude-single-duration-minutes="true">0</span>:<span class="amplitude-duration-minutes" amplitude-single-duration-seconds="true">00</span>
             </div>
-            <input type="range" id="song-time-slider" class="amplitude-song-slider" amplitude-singular-song-slider="true" value="0">
+            <input type="range" id="song-time-slider" class="amplitude-song-slider no-drag" amplitude-singular-song-slider="true" value="0">
           </div>
         </div>
 
         <div class="player-right">
-          <button id="refresh" class="btn btn-default">
+          <button id="refresh" class="btn btn-default no-drag">
             <span class="icon icon-ccw"></span>
           </button>
-          <button id="add-subscription" class="btn btn-default">
+          <button id="add-subscription" class="btn btn-default no-drag">
             <span class="icon icon-plus icon-text"></span>
-            Add Subscription
+            Add Podcast
           </button>
       </div>
       </div>
@@ -55,11 +55,10 @@
       <div class="pane-group">
         <div class="pane pane-sm sidebar" ng-controller="PodcastListController">
           <ul id="podcast-list" class="list-group">
-          <li ng-class="{'list-group-item': true, active: selected == 'recent'}" ng-click="loadRecent()">
+            <li ng-class="{'list-group-item': true, 'list-group-item-recent': selected == 'recent', active: selected == 'recent'}" ng-click="loadRecent()">
               <img class="img-circle media-object pull-left" src="assets/images/clock.png" width="32" height="32">
               <div class="media-body">
                 <strong>Recent updates</strong>
-                <p>{{total}} episodes</p>
               </div>
             </li>
             <li ng-class="{'list-group-item': true, active: selected == pod.id}" ng-repeat="pod in podcasts" ng-click="load(pod.id)">
@@ -72,14 +71,14 @@
           </ul>
         </div>
 
-        <div class="pane">
+        <div class="pane content">
           <div ng-view></div>
         </div>
       </div>
     </div>
 
   </div>
-</body>
+
   <script type="text/javascript">
     window.alertify = require('alertify.js');
     window.$ = require('jquery');
@@ -87,4 +86,6 @@
   </script>
   <script type="text/javascript" src="./vendor.js"></script>
   <script type="text/javascript" src="./renderer.js"></script>
+
+</body>
 </html>

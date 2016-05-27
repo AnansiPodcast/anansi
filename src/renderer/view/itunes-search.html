@@ -1,0 +1,22 @@
+<header id="add_podcast_header" class="inside">
+    <h1>Add Podcasts</h1>
+    <p>Search for your favorite podcast or <a ng-click="byFeed()" href="javascript:void(0)">insert a feed URL</a>.</p>
+    <form novalidate name="formSearch" ng-submit="formSearch.$valid && search(term)">
+      <input autofocus required type="search" name="term" placeholder="Search for a podcast..." ng-model="term" ng-change="formSearch.$valid && search(term)">
+    </form>
+</header>
+<div class="content">
+  <article class="podcast-item" ng-repeat="cast in podcasts | limitTo:20">
+    <figure>
+      <img ng-src="{{cast.artworkUrl100}}" alt="">
+    </figure>
+    <div class="podcast-content with-image">
+      <h2>{{cast.collectionName}}</h2>
+      <p>{{cast.artistName}}</p>
+      <div ng-switch on="subscribed(cast.collectionName)">
+        <button ng-switch-when="false" ng-click="subscribe(cast.feedUrl)" class="btn btn-large btn-default">Subscribe</button>
+        <button ng-switch-when="true" disabled class="btn btn-large btn-success">Subscribed</button>
+      </div>
+    </div>
+  </article>
+</div>
