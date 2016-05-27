@@ -17,7 +17,6 @@ class Windows {
       minWidth: 940,
       minHeight: 600,
       acceptFirstMouse: true,
-      titleBarStyle: 'hidden',
       frame: false
     });
 

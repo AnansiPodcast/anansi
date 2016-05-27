@@ -2,7 +2,7 @@
     <h1>Add Podcasts</h1>
     <p>Search for your favorite podcast or <a ng-click="byFeed()" href="javascript:void(0)">insert a feed URL</a>.</p>
     <form novalidate name="formSearch" ng-submit="formSearch.$valid && search(term)">
-      <input required type="search" name="term" placeholder="Search for a podcast..." ng-model="term" ng-change="formSearch.$valid && search(term)">
+      <input autofocus required type="search" name="term" placeholder="Search for a podcast..." ng-model="term" ng-change="formSearch.$valid && search(term)">
     </form>
 </header>
 <div class="content">
