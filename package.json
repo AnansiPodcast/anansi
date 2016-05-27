@@ -23,6 +23,7 @@
   "homepage": "https://github.com/sergiovilar/podcast-desktop#readme",
   "dependencies": {
     "alertify.js": "^1.0.10",
+    "amplitudejs": "^2.2.0",
     "angular": "^1.5.3",
     "angular-route": "^1.5.3",
     "dialogs": "^1.1.12",

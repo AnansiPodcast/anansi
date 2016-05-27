@@ -8,7 +8,7 @@ var vendors = [
   'node_modules/angular/angular.js',
   'node_modules/angular-route/angular-route.js',
   'node_modules/alertify.js/dist/js/ngAlertify.js',
-  'bower_components/amplitude/js/amplitude.js'
+  'node_modules/amplitudejs/js/amplitude.js'
 ];
 
 var vendorsCSS = [
