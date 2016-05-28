@@ -12,9 +12,6 @@ class PodcastController {
 
   static add(url) {
     return this.getFeed(url)
-    .then((response) => {
-      return response.toString()
-    })
     .then(this.processFeed)
     .then((podcast) => {
       return this.insert(podcast, url)
@@ -31,6 +28,8 @@ class PodcastController {
     return HTTP.read({
       url: url,
       method: 'GET'
+    }).then((response) => {
+      return response.toString()
     })
   }
 
@@ -81,14 +80,11 @@ class PodcastController {
 
   static fetchIndividual(podcasts, counter, window) {
     if(typeof podcasts[counter] === 'undefined') {
+      Messenger.send('notify.fetch.ended', true)
       return
-      Messenger.send('notify.fetch.ended', true);
     }
     const pod = podcasts[counter]
     return this.getFeed(pod.url)
-    .then((response) => {
-      return response.toString()
-    })
     .then(this.processFeed)
     .then((res) => {
       res.episodes.map(item => {

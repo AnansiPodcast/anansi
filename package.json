@@ -10,7 +10,7 @@
     "start": "gulp; electron ./compile",
     "install": "bower install",
     "package": "gulp dist; cp -R node_modules ./compile; node pkg.js --platform=darwin",
-    "test": "mocha --require babel-core/register --reporter dot --timeout 10000 spec/controller"
+    "test": "rm db.json; mocha --require babel-core/register --reporter dot --timeout 10000 spec/controller"
   },
   "repository": {
     "type": "git",
