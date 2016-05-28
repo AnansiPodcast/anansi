@@ -1,5 +1,8 @@
+const loadElectron = (typeof process.versions['electron'] !== 'undefined')
+
 import low from 'lowdb'
 import storage from 'lowdb/file-sync'
-import {app} from 'electron'
+if(loadElectron) var app = require('electron').app
 
-export const db = low(app.getPath('appData') + '/db.json', { storage })
+const dbPath = (loadElectron) ? app.getPath('appData') + '/db.json' : 'db.json'
+export const db = low(dbPath, { storage })

@@ -6,7 +6,7 @@ import uuid from 'uuid'
 import Podcast from '../model/Podcast.js'
 import Episode from '../model/Episode.js'
 import EpisodesController from './EpisodesController.js'
-import Windows from '../windows.js'
+import Messenger from '../messenger.js'
 
 class PodcastController {
 
@@ -24,7 +24,7 @@ class PodcastController {
   static remove(podcast_id) {
     Podcast.remove({ id: podcast_id })
     Episode.remove({ podcast_id: podcast_id })
-    Windows.mainWindow.webContents.send('podcast.model.changed', true)
+    Messenger.send('podcast.model.changed', true)
   }
 
   static getFeed(url) {
@@ -74,7 +74,7 @@ class PodcastController {
       EpisodesController.insert(item, id)
     })
 
-    Windows.mainWindow.webContents.send('podcast.model.changed', true)
+    Messenger.send('podcast.model.changed', true)
 
     return true
   }
@@ -82,7 +82,7 @@ class PodcastController {
   static fetchIndividual(podcasts, counter, window) {
     if(typeof podcasts[counter] === 'undefined') {
       return
-      Windows.mainWindow.webContents.send('notify.fetch.ended', true);
+      Messenger.send('notify.fetch.ended', true);
     }
     const pod = podcasts[counter]
     return this.getFeed(pod.url)
@@ -94,7 +94,7 @@ class PodcastController {
       res.episodes.map(item => {
         EpisodesController.insert(item, pod.id)
       })
-      Windows.mainWindow.webContents.send('model.changed.Episode', true);
+      Messenger.send('model.changed.Episode', true);
       counter++
       setTimeout(() => {
         this.fetchIndividual(podcasts, counter, window)
@@ -103,7 +103,7 @@ class PodcastController {
   }
 
   static fetch() {
-    Windows.mainWindow.webContents.send('notify.fetch.started', true);
+    Messenger.send('notify.fetch.started', true);
     this.fetchIndividual(Podcast.chain().value(), 0)
   }
 

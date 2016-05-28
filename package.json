@@ -9,7 +9,8 @@
   "scripts": {
     "start": "gulp; electron ./compile",
     "install": "bower install",
-    "package": "gulp dist; cp -R node_modules ./compile; node pkg.js --platform=darwin"
+    "package": "gulp dist; cp -R node_modules ./compile; node pkg.js --platform=darwin",
+    "test": "mocha --require babel-core/register --reporter dot --timeout 10000 spec/controller"
   },
   "repository": {
     "type": "git",
@@ -40,15 +41,17 @@
     "validator": "^5.2.0"
   },
   "devDependencies": {
-    "babel-preset-es2015": "^6.5.0",
+    "babel-preset-es2015": "^6.9.0",
     "devtron": "^1.1.0",
     "electron-packager": "^7.0.2",
+    "expect.js": "^0.3.1",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
     "gulp-concat": "^2.6.0",
     "gulp-copy": "0.0.2",
     "gulp-sass": "^2.2.0",
     "gulp-watch": "^4.3.5",
+    "mocha": "^2.5.3",
     "require-dir": "^0.3.0",
     "rimraf": "^2.5.2",
     "shelljs": "^0.7.0"
