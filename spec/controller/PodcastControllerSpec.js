@@ -1,5 +1,6 @@
 import expect from 'expect.js'
 import PodcastController from '../../src/browser/controller/PodcastController.js'
+import ConfigController from '../../src/browser/controller/ConfigController.js'
 import Podcast from '../../src/browser/model/Podcast.js'
 import Episode from '../../src/browser/model/Episode.js'
 import Messenger from '../../src/browser/messenger.js'
@@ -72,10 +73,44 @@ describe('PodcastController', () => {
       })
       Messenger.listen('notify.fetch.ended', (result) => {
         expect(result).to.be.ok();
+        Messenger.clearCallbacks(['notify.fetch.started', 'notify.fetch.ended'])
         done()
       })
       PodcastController.fetch()
     }).timeout(20000)
+
+    it('should fetch for new episodes after 5 seconds', (done) => {
+      const started_time = new Date().getTime()
+      PodcastController.scheduleFetch()
+      Messenger.listen('notify.fetch.started', (result) => {
+        const finished_time = new Date().getTime()
+        expect(finished_time - started_time).to.be.greaterThan(5000)
+        expect(finished_time - started_time).to.be.lessThan(5050)
+      })
+      Messenger.listen('notify.fetch.ended', () => {
+        Messenger.clearCallbacks(['notify.fetch.started', 'notify.fetch.ended'])
+        done()
+      })
+    }).timeout(20000)
+
+    it('should trigger fetch for new episodes every 10 seconds', (done) => {
+      ConfigController.set('first_fetch_timeout', false)
+      ConfigController.set('fetch_episode_interval', 1000)
+      let counter = 0
+      let started_time = new Date().getTime()
+      Messenger.listen('notify.fetch.started', (result) => {
+        let finished_time = new Date().getTime()
+        expect(finished_time - started_time).to.be.greaterThan(1000)
+        expect(finished_time - started_time).to.be.lessThan(1050)
+        counter++
+        started_time = finished_time
+        if(counter == 3) {
+          Messenger.clearCallbacks(['notify.fetch.started', 'notify.fetch.ended'])
+          done()
+        }
+      })
+      PodcastController.scheduleFetch()
+    }).timeout(60000)
 
   })
 

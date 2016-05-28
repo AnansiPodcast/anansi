@@ -23,6 +23,12 @@ class Messenger {
     this.callbacks[key].forEach((cb) => { cb(value) })
   }
 
+  clearCallbacks(keys) {
+    keys.forEach((key) => {
+      this.callbacks[key] = []
+    })
+  }
+
   send(key, value) {
     if(typeof Windows != 'undefined')
       Windows.mainWindow.webContents.send(key, value)

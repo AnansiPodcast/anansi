@@ -6,6 +6,7 @@ import uuid from 'uuid'
 import Podcast from '../model/Podcast.js'
 import Episode from '../model/Episode.js'
 import EpisodesController from './EpisodesController.js'
+import ConfigController from './ConfigController.js'
 import Messenger from '../messenger.js'
 
 class PodcastController {
@@ -76,6 +77,16 @@ class PodcastController {
     Messenger.send('podcast.model.changed', true)
 
     return true
+  }
+
+  static scheduleFetch() {
+    if(ConfigController.get('first_fetch_timeout') !== false)
+      setTimeout(() => {
+        this.fetch()
+      }, ConfigController.get('first_fetch_timeout'))
+    setInterval(() => {
+      this.fetch()
+    }, ConfigController.get('fetch_episode_interval'))
   }
 
   static fetchIndividual(podcasts, counter, window) {
