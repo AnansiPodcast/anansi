@@ -84,7 +84,7 @@ describe('PodcastController', () => {
       PodcastController.scheduleFetch()
       Messenger.listen('notify.fetch.started', (result) => {
         const finished_time = new Date().getTime()
-        expect(finished_time - started_time).to.be.greaterThan(5000)
+        expect(finished_time - started_time).to.be.greaterThan(4999)
         expect(finished_time - started_time).to.be.lessThan(5050)
       })
       Messenger.listen('notify.fetch.ended', () => {
@@ -100,7 +100,7 @@ describe('PodcastController', () => {
       let started_time = new Date().getTime()
       Messenger.listen('notify.fetch.started', (result) => {
         let finished_time = new Date().getTime()
-        expect(finished_time - started_time).to.be.greaterThan(1000)
+        expect(finished_time - started_time).to.be.greaterThan(999)
         expect(finished_time - started_time).to.be.lessThan(1050)
         counter++
         started_time = finished_time

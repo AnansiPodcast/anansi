@@ -1,7 +1,7 @@
 const loadElectron = (typeof process.versions['electron'] !== 'undefined')
 let instance = null
 
-if(loadElectron) Windows = require('./windows.js')
+if(loadElectron) var Windows = require('./windows.js')
 
 class Messenger {
 
