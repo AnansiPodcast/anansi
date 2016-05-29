@@ -9,7 +9,8 @@
   "scripts": {
     "start": "gulp; electron ./compile",
     "package": "gulp dist; cp -R node_modules ./compile; node pkg.js --platform=darwin",
-    "test": "rm db.json; mocha --require babel-core/register --reporter dot --timeout 10000 spec/controller"
+    "test": "rm db.json; mocha --require babel-core/register --reporter dot --timeout 10000 spec/controller",
+    "postinstall": "cd node_modules/leveldown && HOME=~/.electron-gyp node-gyp rebuild --target=1.1.0 --arch=x64 --dist-url=https://atom.io/download/atom-shell"
   },
   "repository": {
     "type": "git",
@@ -34,6 +35,8 @@
     "merge": "^1.2.0",
     "node-podcast-parser": "^1.0.1",
     "node-uuid": "^1.4.7",
+    "leveldown": "^1.4.1",
+    "levelup": "^1.2.1",
     "q": "^1.4.1",
     "q-io": "^1.13.2",
     "uuid": "^2.0.1",

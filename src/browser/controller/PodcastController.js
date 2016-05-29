@@ -57,26 +57,27 @@ class PodcastController {
 
   static insert(pod, url) {
 
-    const id = uuid()
-    const existent = Podcast.find({url: url});
-    if(existent) return;
+    let p = new Podcast()
+    p.url = url
+    p.name = pod.title
+    p.description = pod.description,
+    p.image = pod.image,
+    p.categories = pod.categories
 
-    Podcast.push({
-      id: id,
-      url: url,
-      name: pod.title,
-      description: pod.description,
-      image: pod.image,
-      categories: pod.categories
+    return p.save()
+    .then(() => {
+      Messenger.send('podcast.model.changed', true)
+    })
+    .then(() => {
+      return Episode.batch(pod.episodes, p.id)
+    })
+    .then(() => {
+      Messenger.send('model.changed.Episode')
+    })
+    .catch((err) => {
+      console.log(err);
     })
 
-    pod.episodes.forEach((item) => {
-      EpisodesController.insert(item, id)
-    })
-
-    Messenger.send('podcast.model.changed', true)
-
-    return true
   }
 
   static scheduleFetch() {
@@ -98,9 +99,8 @@ class PodcastController {
     return this.getFeed(pod.url)
     .then(this.processFeed)
     .then((res) => {
-      res.episodes.map(item => {
-        EpisodesController.insert(item, pod.id)
-      })
+      return Episode.batch(res.episodes, pod.id)
+    }).then(() => {
       Messenger.send('model.changed.Episode', true);
       counter++
       setTimeout(() => {
@@ -111,7 +111,9 @@ class PodcastController {
 
   static fetch() {
     Messenger.send('notify.fetch.started', true);
-    this.fetchIndividual(Podcast.chain().value(), 0)
+    Podcast.all().then((podcasts) => {
+      this.fetchIndividual(podcasts, 0)
+    })
   }
 
 }

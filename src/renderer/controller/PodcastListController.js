@@ -3,9 +3,15 @@ const PodcastController = remote.require('./browser/controller/PodcastController
 
 app.controller('PodcastListController', ['$scope', '$rootScope', '$location', ($scope, $rootScope, $location) => {
 
-  $scope.podcasts = Podcast.chain().value();
+  $scope.podcasts = []
   $scope.selected = 'recent';
-  $scope.total = Episode.chain().value().length;
+
+  function getPodcasts() {
+    Podcast.all().then((data) => {
+      $scope.podcasts = data
+      $scope.$apply()
+    })
+  }
 
   $scope.browsePodcasts = () => {
     $scope.selected = 'browse';
@@ -28,9 +34,9 @@ app.controller('PodcastListController', ['$scope', '$rootScope', '$location', ($
   }
 
   ipcRenderer.on('podcast.model.changed', () => {
-    $scope.podcasts = Podcast.chain().value();
-    $scope.total = Episode.chain().value().length;
-    $scope.$apply();
+    getPodcasts()
   });
+
+  getPodcasts()
 
 }]);

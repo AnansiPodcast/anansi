@@ -29,8 +29,9 @@ app.controller('ItunesSearchController', ['$scope', '$rootScope', '$timeout', ($
   }
 
   $scope.subscribed = (name) => {
-    const existent = Podcast.find({name: name})
-    return (existent) ? true : false
+    // const existent = Podcast.find({name: name})
+    // return (existent) ? true : false
+    return false
   }
 
 }]);

@@ -1,5 +1,6 @@
 import AppMenu from './menu.js'
 import PodcastController from './controller/PodcastController.js'
+import db from './model/db.js'
 
 class Initializer {
 

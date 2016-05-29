@@ -4,6 +4,10 @@ import Episode from '../model/Episode.js'
 
 class EpisodesController {
 
+  static batch(items, podcast_id) {
+    Episode.batch(items, podcast_id)
+  }
+
   static insert(item, podcast_id) {
 
     const existent = Episode.find({guid: item.guid})
