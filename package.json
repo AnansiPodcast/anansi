@@ -5,11 +5,14 @@
   "main": "index.js",
   "config": {
     "electronVersion": "1.1.0",
-    "certificate": ""
+    "certificate": "Sérgio Vilar (RBM6L57NMB)"
   },
   "scripts": {
     "start": "gulp; electron ./compile",
-    "package": "gulp dist; cp -R node_modules ./compile; node ./build/pkg.js --platform=darwin",
+    "build": "gulp dist; cp -R node_modules ./compile",
+    "package": "node ./build/package.js --platform=darwin",
+    "sign": "node ./build/sign.js",
+    "dist": "npm run build; npm run package; npm run sign",
     "test": "rm db.json; mocha --require babel-core/register --reporter dot --timeout 10000 spec/controller"
   },
   "repository": {
