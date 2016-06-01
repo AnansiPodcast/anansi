@@ -1,44 +1,37 @@
 #!/usr/bin/env node
-
-var os = require('os');
-var pkgjson = require('./package.json');
-var path = require('path');
-var sh = require('shelljs');
+var os = require('os')
+  , pkgjson = require('../package.json')
+  , path = require('path')
+  , sh = require('shelljs')
+  , argv = require('optimist').argv;
 
 var appVersion = pkgjson.version
   , electronPackager = 'electron-packager'
   , electronVersion = pkgjson.config.electronVersion
-  , icon = 'icon.icns';
+  , archs = ['ia32', 'x64'];
 
-var archs = ['ia32', 'x64'];
+function buildForPlatform(platform) {
+   archs.forEach(function (arch) {
+    pack(platform, arch);
+  });
+}
 
-if (process.argv[2] === '--all') {
-
-  // build for all platforms
+if (argv.all) {
   var platforms = ['linux', 'darwin'];
-
-  // Only build for Windows when in Windows
   if(process.platform === 'win32') platforms.push('win32');
-
   platforms.forEach(function (plat) {
-    archs.forEach(function (arch) {
-      pack(plat, arch);
-    });
+   buildForPlatform(plat);
   });
-
-} else if (typeof process.argv[2] !== 'undefined' && process.argv[2].indexOf('--platform') > -1) {
-  archs.forEach(function (arch) {
-    var plat = process.argv[2];
-    pack(plat, arch);
-  });
+} else if (argv.platform) {
+  buildForPlatform(argv.platform);
 } else {
   // build for current platform only
   pack(os.platform(), os.arch());
 }
 
 function pack (plat, arch) {
-  plat = plat.replace('--platform=', '');
-  var outputPath = path.join('.', 'build', 'releases', plat, arch);
+
+  var outputPath = path.join('.', 'build', 'releases');
 
   sh.exec('./node_modules/.bin/rimraf ' + outputPath);
 
@@ -57,7 +50,7 @@ function pack (plat, arch) {
     ' --arch=' + arch +
     ' --version=' + electronVersion +
     ' --app-version=' + appVersion +
-    ' --icon=' + icon +
+    ' --icon=./build/icon.icns' +
     ' --out=' + outputPath +
     ((plat == 'linux') ? '' : ' --prune') +
     ((plat === 'win32') ? ' --asar=true' : '') +

@@ -1,14 +1,18 @@
 {
-  "name": "podcast-desktop",
+  "name": "Anansi",
   "version": "1.0.0",
   "description": "A Podcast app for Desktop",
   "main": "index.js",
   "config": {
-    "electronVersion": "1.1.0"
+    "electronVersion": "1.1.0",
+    "certificate": "Sérgio Vilar (RBM6L57NMB)"
   },
   "scripts": {
     "start": "gulp; electron ./compile",
-    "package": "gulp dist; cp -R node_modules ./compile; node pkg.js --platform=darwin",
+    "build": "gulp dist; cp -R node_modules ./compile",
+    "package": "node ./build/package.js --platform=darwin",
+    "sign": "node ./build/sign.js",
+    "dist": "npm run build; npm run package; npm run sign",
     "test": "rm db.json; mocha --require babel-core/register --reporter dot --timeout 10000 spec/controller"
   },
   "repository": {
@@ -54,6 +58,7 @@
     "gulp-sass": "^2.2.0",
     "gulp-watch": "^4.3.5",
     "mocha": "^2.5.3",
+    "optimist": "^0.6.1",
     "require-dir": "^0.3.0",
     "rimraf": "^2.5.2",
     "shelljs": "^0.7.0"
