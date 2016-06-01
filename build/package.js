@@ -8,7 +8,6 @@ var os = require('os')
 var appVersion = pkgjson.version
   , electronPackager = 'electron-packager'
   , electronVersion = pkgjson.config.electronVersion
-  , icon = 'icon.icns'
   , archs = ['ia32', 'x64'];
 
 function buildForPlatform(platform) {
@@ -51,19 +50,11 @@ function pack (plat, arch) {
     ' --arch=' + arch +
     ' --version=' + electronVersion +
     ' --app-version=' + appVersion +
-    ' --icon=' + icon +
+    ' --icon=./build/icon.icns' +
     ' --out=' + outputPath +
     ((plat == 'linux') ? '' : ' --prune') +
     ((plat === 'win32') ? ' --asar=true' : '') +
     ' --ignore="build|electron-packager"');
-
-  if(plat === 'darwin' && argv.sign){
-    cmds.push('./codesign.sh');
-    cmds.push('xcrun -log codesign --deep --force --sign "'+pkgjson.config.certificate+'" '+
-      '--keychain=ios-build.keychain' +
-      ' ./dist/'+appName+'.app '
-    );
-  }
 
   for(var i in cmds){
     console.log(cmds[i]);
