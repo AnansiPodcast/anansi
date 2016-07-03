@@ -24,12 +24,12 @@ describe('EpisodesController', () => {
   describe('Add an Episode', () => {
 
     it('should add an episode', () => {
-      EpisodesController.insert(sampleEpisode, '6224270c-fb10-4249-93f9-77c3a404b9f6')
+      EpisodesController.batch([sampleEpisode], '6224270c-fb10-4249-93f9-77c3a404b9f6')
       expect(Episode.chain().value()).to.have.length(1)
     })
 
     it('should not add the same episode twice', () => {
-      EpisodesController.insert(sampleEpisode, '6224270c-fb10-4249-93f9-77c3a404b9f6')
+      EpisodesController.batch([sampleEpisode], '6224270c-fb10-4249-93f9-77c3a404b9f6')
       expect(Episode.chain().value()).to.have.length(1)
     })
 

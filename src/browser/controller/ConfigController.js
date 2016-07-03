@@ -1,9 +1,11 @@
 import Config from '../model/Config.js'
+import winston from 'winston'
 
 class ConfigController {
 
   constructor() {
     this.document = this._getDefaultDocument()
+    this._logger = false
   }
 
   _getDefaultValues() {
@@ -28,6 +30,17 @@ class ConfigController {
     let objKey = {}
     objKey[key] = value
     this.document = Config.chain().first().assign(objKey).value()
+  }
+
+  logger() {
+    let transports = []
+    if(process.env.NODE_ENV == 'development')
+      transports.push(new (winston.transports.Console)())
+    if(!this._logger)
+      this._logger = new (winston.Logger)({
+        transports: transports
+      });
+    return this._logger
   }
 
 }
