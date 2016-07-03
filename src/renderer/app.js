@@ -13,6 +13,10 @@ Amplitude.init({
   'default_album_art': "assets/images/no-cover.png"
 })
 
+window.onbeforeunload = (e) => {
+  saveState()
+}
+
 app.config(['$routeProvider', $routeProvider => {
   $routeProvider.
     when('/search', {
