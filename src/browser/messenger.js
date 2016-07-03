@@ -30,7 +30,7 @@ class Messenger {
   }
 
   send(key, value) {
-    if(typeof Windows != 'undefined')
+    if(typeof Windows !== 'undefined')
       Windows.mainWindow.webContents.send(key, value)
     this._triggerListeners(key, value)
   }
