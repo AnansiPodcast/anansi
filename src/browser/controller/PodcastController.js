@@ -8,10 +8,12 @@ import Episode from '../model/Episode.js'
 import EpisodesController from './EpisodesController.js'
 import ConfigController from './ConfigController.js'
 import Messenger from '../messenger.js'
+const Logger = ConfigController.logger()
 
 class PodcastController {
 
   static add(url) {
+    Logger.info(`Adding a new Podcast with URL ${url}`)
     return this.getFeed(url)
     .then(this.processFeed)
     .then((podcast) => {
@@ -26,6 +28,7 @@ class PodcastController {
   }
 
   static getFeed(url) {
+    Logger.info(`Getting feed for ${url}`)
     return HTTP.read({
       url: url,
       method: 'GET'
@@ -44,6 +47,7 @@ class PodcastController {
   }
 
   static processFeed(response) {
+    Logger.info(`Processing feed`)
     const deferred = Q.defer();
     Parser(response, (err, data) => {
       if (err) {
@@ -70,10 +74,8 @@ class PodcastController {
       categories: pod.categories
     })
 
-    pod.episodes.forEach((item) => {
-      EpisodesController.insert(item, id)
-    })
-
+    Logger.info(`${pod.title} added. Adding episodes...`)
+    EpisodesController.batch(pod.episodes, id)
     Messenger.send('podcast.model.changed', true)
 
     return true
@@ -91,25 +93,24 @@ class PodcastController {
 
   static fetchIndividual(podcasts, counter, window) {
     if(typeof podcasts[counter] === 'undefined') {
+      Logger.info('Fetch for new episodes has ben ended')
       Messenger.send('notify.fetch.ended', true)
       return
     }
     const pod = podcasts[counter]
+    Logger.info(`Fetching new episodes for ${pod.name}`)
     return this.getFeed(pod.url)
     .then(this.processFeed)
     .then((res) => {
-      res.episodes.map(item => {
-        EpisodesController.insert(item, pod.id)
-      })
+      EpisodesController.batch(res.episodes, pod.id)
       Messenger.send('model.changed.Episode', true);
       counter++
-      setTimeout(() => {
-        this.fetchIndividual(podcasts, counter, window)
-      }, 5000)
+      this.fetchIndividual(podcasts, counter, window)
     })
   }
 
   static fetch() {
+    Logger.info('Fetch for new episodes has ben started')
     Messenger.send('notify.fetch.started', true);
     this.fetchIndividual(Podcast.chain().value(), 0)
   }

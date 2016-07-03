@@ -8,12 +8,14 @@
     "certificate": "Sérgio Vilar (RBM6L57NMB)"
   },
   "scripts": {
-    "start": "gulp; electron ./compile",
+    "start": "gulp; NODE_ENV=development electron ./compile",
+    "fresh-start": "npm run dump_db; npm run start",
     "build": "gulp dist; cp -R node_modules ./compile",
     "package": "node ./build/package.js --platform=darwin",
     "sign": "node ./build/sign.js",
     "dist": "npm run build; npm run package; npm run sign",
-    "test": "rm db.json; mocha --require babel-core/register --reporter dot --timeout 10000 spec/controller"
+    "test": "rm db.json; NODE_ENV=test mocha --require babel-core/register --reporter dot --timeout 10000 spec/controller",
+    "dump_db": "rm ~/Library/Application\\ Support/db.json"
   },
   "repository": {
     "type": "git",
@@ -41,7 +43,8 @@
     "q": "^1.4.1",
     "q-io": "^1.13.2",
     "uuid": "^2.0.1",
-    "validator": "^5.2.0"
+    "validator": "^5.2.0",
+    "winston": "^2.2.0"
   },
   "devDependencies": {
     "babel-preset-es2015": "6.3.13",
