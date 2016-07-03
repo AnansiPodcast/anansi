@@ -22,8 +22,8 @@
   },
   "homepage": "https://github.com/sergiovilar/podcast-desktop#readme",
   "dependencies": {
+    "@sergiovilar/amplitudejs": "^2.2.3",
     "alertify.js": "^1.0.10",
-    "amplitudejs": "^2.2.0",
     "angular": "^1.5.3",
     "angular-route": "^1.5.3",
     "dialogs": "^1.1.12",
@@ -40,10 +40,9 @@
     "validator": "^5.2.0"
   },
   "devDependencies": {
-    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-es2015": "6.3.13",
     "babel": "6.3.13",
     "babel-core": "6.1.18",
-    "babel-preset-es2015": "6.3.13",
     "devtron": "^1.1.0",
     "electron-packager": "^7.0.2",
     "expect.js": "^0.3.1",
