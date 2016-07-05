@@ -29,6 +29,12 @@ class AppMenu {
         click: (item, focusedWindow) => {
           PopulateController.importOPML(this.mainWindow)
         }
+      },
+      {
+        label: 'Export Subscriptions to OPML',
+        click: (item, focusedWindow) => {
+          PopulateController.exportOPML(this.mainWindow)
+        }
       }
     ])
 
