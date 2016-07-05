@@ -31,6 +31,10 @@ app.config(['$routeProvider', $routeProvider => {
       templateUrl: 'renderer/view/podcast.html',
       controller: 'PodcastDetailController'
     }).
+    when('/welcome', {
+      templateUrl: 'renderer/view/welcome.html',
+      controller: 'PodcastListController'
+    }).
     otherwise({
       redirectTo: '/recent'
     })
