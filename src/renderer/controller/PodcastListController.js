@@ -7,6 +7,11 @@ app.controller('PodcastListController', ['$scope', '$rootScope', '$location', ($
   $scope.selected = 'recent';
   $scope.total = Episode.chain().value().length;
 
+  if (!$scope.total) {
+    $scope.selected = 'welcome';
+    $location.path("/welcome");
+  }
+
   $scope.browsePodcasts = () => {
     $scope.selected = 'browse';
     $location.path("/browse-podcasts");
