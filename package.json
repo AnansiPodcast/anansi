@@ -38,6 +38,7 @@
     "jquery": "^2.2.3",
     "lowdb": "^0.12.5",
     "merge": "^1.2.0",
+    "node-opml-parser": "^1.0.0",
     "node-podcast-parser": "^1.0.1",
     "node-uuid": "^1.4.7",
     "q": "^1.4.1",
