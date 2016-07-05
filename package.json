@@ -41,6 +41,7 @@
     "node-opml-parser": "^1.0.0",
     "node-podcast-parser": "^1.0.1",
     "node-uuid": "^1.4.7",
+    "opml-generator": "^1.1.1",
     "q": "^1.4.1",
     "q-io": "^1.13.2",
     "uuid": "^2.0.1",
