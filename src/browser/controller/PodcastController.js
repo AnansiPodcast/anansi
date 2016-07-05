@@ -110,6 +110,7 @@ class PodcastController {
   }
 
   static fetch() {
+    if(Podcast.chain().size().value() == 0) return
     Logger.info('Fetch for new episodes has ben started')
     Messenger.send('notify.fetch.started', true);
     this.fetchIndividual(Podcast.chain().value(), 0)
