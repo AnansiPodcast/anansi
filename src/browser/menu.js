@@ -2,6 +2,7 @@ import {Menu} from 'electron'
 import defaultMenu from 'electron-default-menu'
 import Dialogs from 'dialogs'
 import Windows from './windows.js'
+import PopulateController from './controller/PopulateController.js'
 
 class AppMenu {
 
@@ -18,6 +19,15 @@ class AppMenu {
         label: 'Add Podcast by URL',
         click: (item, focusedWindow) => {
           this.mainWindow.webContents.send('ui.helper.addPodcast', true);
+        }
+      },
+      {
+        type: 'separator'
+      },
+      {
+        label: 'Import OPML',
+        click: (item, focusedWindow) => {
+          PopulateController.importOPML(this.mainWindow)
         }
       }
     ])
