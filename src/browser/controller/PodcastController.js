@@ -3,16 +3,28 @@ import HTTP from 'q-io/http'
 import Parser from 'node-podcast-parser'
 import Validator from 'validator'
 import uuid from 'uuid'
+import validator from 'validator'
 import Podcast from '../model/Podcast.js'
 import Episode from '../model/Episode.js'
 import EpisodesController from './EpisodesController.js'
+import DialogController from './DialogController.js'
 import ConfigController from './ConfigController.js'
 import Messenger from '../messenger.js'
 const Logger = ConfigController.logger()
 
 class PodcastController {
 
+  static addByURL() {
+    DialogController.input('Add a new Podcast by URL', 'Subscribe').then((data) => {
+      PodcastController.add(data)
+    })
+  }
+
   static add(url) {
+    if(!validator.isURL(url)) {
+      DialogController.error('Invalid Podcast URL', 'You need to provide a valid Podcast Feed URL')
+      return
+    }
     Logger.info(`Adding a new Podcast with URL ${url}`)
     return this.getFeed(url)
     .then(this.processFeed)
@@ -51,6 +63,7 @@ class PodcastController {
     const deferred = Q.defer();
     Parser(response, (err, data) => {
       if (err) {
+        DialogController.error('Invalid Podcast Feed', "We can't parse this feed as an Podcast feed")
         deferred.reject(new Error(err));
       } else {
         deferred.resolve(data);
