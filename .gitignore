@@ -3,3 +3,5 @@ dist
 build/releases
 compile
 db.json
+build/cache
+npm-debug.log
