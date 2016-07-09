@@ -3,14 +3,22 @@ import Q from 'q'
 
 class DialogController {
 
-  static error(title, message) {
-    cocoaDialog('ok-msgbox', {
+  static abstractMessage(icon, title, message, noCancel = true) {
+    return cocoaDialog('ok-msgbox', {
       title: title,
-      icon: 'caution',
+      icon: icon,
       text: title,
-      noCancel: true,
+      noCancel: noCancel,
       informativeText: message
     })
+  }
+
+  static error(title, message) {
+    return DialogController.abstractMessage('caution', title, message)
+  }
+
+  static message() {
+    return DialogController.abstractMessage('info', title, message)
   }
 
   static input(title, action) {
