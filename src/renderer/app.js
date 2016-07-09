@@ -40,19 +40,6 @@ app.config(['$routeProvider', $routeProvider => {
     })
 }])
 
-// Add a new podcast
-function askForFeed() {
-  alertify.prompt("Insert Podcast URL", (val, ev) => {
-    ev.preventDefault();
-    PodcastController.add(val).then(() => {
-      alertify.success("Sucessfully added Podcast");
-    })
-  })
-}
-ipcRenderer.on('ui.helper.addPodcast', (event, arg) => {
-  askForFeed()
-});
-
 // Window actions
 $('.titlebar-close').on('click', () => {
   remote.getCurrentWindow().close()

@@ -3,6 +3,7 @@ import defaultMenu from 'electron-default-menu'
 import Dialogs from 'dialogs'
 import Windows from './windows.js'
 import PopulateController from './controller/PopulateController.js'
+import PodcastController from './controller/PodcastController.js'
 
 class AppMenu {
 
@@ -18,7 +19,7 @@ class AppMenu {
       {
         label: 'Add Podcast by URL',
         click: (item, focusedWindow) => {
-          this.mainWindow.webContents.send('ui.helper.addPodcast', true);
+          PodcastController.addByURL()
         }
       },
       {

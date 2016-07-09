@@ -32,6 +32,7 @@
     "alertify.js": "^1.0.10",
     "angular": "^1.5.3",
     "angular-route": "^1.5.3",
+    "cocoa-dialog": "^0.1.1",
     "dialogs": "^1.1.12",
     "electron-default-menu": "^0.1.1",
     "electron-prebuilt": "^1.1.0",
@@ -45,7 +46,7 @@
     "q": "^1.4.1",
     "q-io": "^1.13.2",
     "uuid": "^2.0.1",
-    "validator": "^5.2.0",
+    "validator": "^5.4.0",
     "winston": "^2.2.0"
   },
   "devDependencies": {
