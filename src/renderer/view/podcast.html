@@ -6,7 +6,7 @@
   </div>
   <button ng-click="unsubscribe()" class="btn btn-large btn-default">Unsubscribe</button>
 </header>
-<div class="content">
+<div class="content podcast-detail-list">
   <article class="podcast-item" ng-repeat="episode in episodes">
     <figure ng-hide="!episode.hasOwnProperty('image')">
       <img ng-src="{{episode.image}}" alt="">
