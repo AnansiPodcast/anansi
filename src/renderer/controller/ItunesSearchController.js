@@ -19,7 +19,7 @@ app.controller('ItunesSearchController', ['$scope', '$rootScope', '$timeout', ($
   }
 
   $scope.byFeed = () => {
-    askForFeed()
+    PodcastController.addByURL()
   }
 
   $scope.subscribe = (url) => {
