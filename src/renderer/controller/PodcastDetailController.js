@@ -36,10 +36,9 @@ app.controller('PodcastDetailController', ['$scope', '$rootScope', '$routeParams
     $rootScope.$broadcast('episode.play', episode);
   }
 
-  $('.podcast-detail-list').parents('.pane.content').scroll(() => {
-    if($('.podcast-detail-list').height() - 300 <= $(this).scrollTop()) {
+  $('.podcast-detail-list').parents('.pane.content').scroll((e) => {
+    if($(e.target).scrollTop() >= ($('.podcast-detail-list').height() - 300))
       moreEpisodes()
-    }
   })
 
 }]);
