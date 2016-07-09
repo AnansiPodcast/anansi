@@ -10,6 +10,8 @@ class ConfigController {
 
   _getDefaultValues() {
     return {
+      update_channel: 'stable',
+      update_interval: 60 * 60 * 1000,
       default_value: true,
       first_fetch_timeout: 5000,
       fetch_episode_interval: 60 * 60 * 1000
@@ -34,8 +36,12 @@ class ConfigController {
 
   logger() {
     let transports = []
-    if(process.env.NODE_ENV == 'development')
+    if(process.env.NODE_ENV == 'development') {
       transports.push(new (winston.transports.Console)())
+    } else if(process.env.NODE_ENV !== 'test') {
+      var app = require('electron').app
+      transports.push(new (winston.transports.File)({filename: app.getPath('appData') + '/'+app.getName()+'/log'}))
+    }
     if(!this._logger)
       this._logger = new (winston.Logger)({
         transports: transports
