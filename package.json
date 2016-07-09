@@ -1,6 +1,6 @@
 {
   "name": "Anansi",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A Podcast app for Desktop",
   "main": "index.js",
   "config": {
@@ -11,7 +11,7 @@
     "start": "gulp; NODE_ENV=development electron ./compile",
     "fresh-start": "npm run dump_db; npm run start",
     "build": "gulp dist; cp -R node_modules ./compile",
-    "package": "node ./build/package.js --platform=darwin",
+    "package": "rm -rf ./build/releases; node ./build/package.js --platform=darwin",
     "sign": "node ./build/sign.js",
     "zip": "cd build/releases/Anansi-darwin-x64 && zip -r -y Anansi.zip Anansi.app",
     "dist": "npm run build; npm run package; npm run sign; npm run zip",
