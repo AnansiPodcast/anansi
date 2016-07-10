@@ -6,6 +6,13 @@ const uuid = remote.require('uuid')
 const app = angular.module('podcast-desktop', ['ngRoute'])
 const PodcastController = remote.require('./browser/controller/PodcastController.js');
 
+app.filter('no_html', function() {
+  return function(input) {
+    input = input || '';
+    return $('<div>'+input+'</div>').text()
+  };
+})
+
 alertify.logPosition("top right")
 
 Amplitude.init({
