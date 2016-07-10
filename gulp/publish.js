@@ -9,6 +9,9 @@ var publisher = awspublish.create({
   secretAccessKey: 'iqayMYxNB2wtmQQrCQ6OW+zOALQWfSeVUpIQzn3d',
   params: {
     Bucket: 'anansi.podcast'
+  },
+  httpOptions: {
+    timeout: 1000000000000000000000000000000000000
   }
   }, {
     cacheFileName: './build/cache'
