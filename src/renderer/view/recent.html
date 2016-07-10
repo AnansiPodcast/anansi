@@ -5,7 +5,7 @@
     </figure>
     <div ng-dblclick="play(episode)" class="podcast-content with-image">
       <h2>{{episode.title}}</h2>
-      <p>{{episode.description}}</p>
+      <p>{{episode.description | no_html}}</p>
     </div>
   </article>
 </div>

@@ -37,7 +37,7 @@ app.controller('PodcastDetailController', ['$scope', '$rootScope', '$routeParams
   }
 
   $('.podcast-detail-list').parents('.pane.content').scroll((e) => {
-    if($(e.target).scrollTop() >= ($('.podcast-detail-list').height() - 300))
+    if($(e.target).scrollTop() >= ($('.podcast-detail-list').height() - 400))
       moreEpisodes()
   })
 
