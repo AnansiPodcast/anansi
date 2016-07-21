@@ -9,7 +9,7 @@ app.controller('PodcastDetailController', ['$scope', '$rootScope', '$routeParams
   $scope.episodes = Episode
       .chain()
       .filter({podcast_id: $routeParams.id})
-      .sortBy('published_time')
+      .sortBy('publishedTime')
       .reverse()
       .take(20)
       .value();
@@ -18,7 +18,7 @@ app.controller('PodcastDetailController', ['$scope', '$rootScope', '$routeParams
     let newEps = Episode
         .chain()
         .filter({podcast_id: $routeParams.id})
-        .sortBy('published_time')
+        .sortBy('publishedTime')
         .reverse()
         .take($scope.episodes.length + paginate)
         .slice($scope.episodes.length)
