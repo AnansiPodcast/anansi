@@ -8,7 +8,7 @@ app.controller('RecentController', ['$scope', '$rootScope', ($scope, $rootScope)
   function getEpisodes() {
     var eps = Episode
       .chain()
-      .sortBy('published_time')
+      .sortBy('publishedTime')
       .reverse()
       .take(100)
       .value()
