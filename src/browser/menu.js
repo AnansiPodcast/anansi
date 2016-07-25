@@ -52,8 +52,8 @@ class AppMenu {
 
   addMenu(position, name, items) {
     this.template.splice(position, 0, {
-    label: 'File',
-    submenu: items
+      label: 'File',
+      submenu: items
     })
   }
 

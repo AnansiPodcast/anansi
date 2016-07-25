@@ -33,9 +33,9 @@ class PodcastController {
     })
   }
 
-  static remove(podcast_id) {
-    Podcast.remove({ id: podcast_id })
-    Episode.remove({ podcast_id: podcast_id })
+  static remove(podcastId) {
+    Podcast.remove({ id: podcastId })
+    Episode.remove({ podcastId: podcastId })
     Messenger.send('podcast.model.changed', true)
   }
 
@@ -51,7 +51,7 @@ class PodcastController {
 
   static searchOnItunes(term) {
     return HTTP.read({
-      url: 'https://itunes.apple.com/search?media=podcast&term='+term,
+      url: `https://itunes.apple.com/search?media=podcast&term=${term}`,
       method: 'GET'
     }).then((data) => {
       return JSON.parse(data.toString())
@@ -59,24 +59,23 @@ class PodcastController {
   }
 
   static processFeed(response) {
-    Logger.info(`Processing feed`)
-    const deferred = Q.defer();
+    Logger.info('Processing feed')
+    const deferred = Q.defer()
     Parser(response, (err, data) => {
       if (err) {
         DialogController.error('Invalid Podcast Feed', "We can't parse this feed as an Podcast feed")
-        deferred.reject(new Error(err));
-      } else {
-        deferred.resolve(data);
-      }
-    });
-    return deferred.promise;
+        deferred.reject(new Error(err))
+      } else
+        deferred.resolve(data)
+    })
+    return deferred.promise
   }
 
   static insert(pod, url) {
 
     const id = uuid()
-    const existent = Podcast.find({url: url});
-    if(existent) return;
+    const existent = Podcast.find({url: url})
+    if(existent) return
 
     Podcast.push({
       id: id,
@@ -95,13 +94,13 @@ class PodcastController {
   }
 
   static scheduleFetch() {
-    if(ConfigController.get('first_fetch_timeout') !== false)
+    if(ConfigController.get('firstFetchTimeout') !== false)
       setTimeout(() => {
         this.fetch()
-      }, ConfigController.get('first_fetch_timeout'))
+      }, ConfigController.get('firstFetchTimeout'))
     setInterval(() => {
       this.fetch()
-    }, ConfigController.get('fetch_episode_interval'))
+    }, ConfigController.get('fetchEpisodeInterval'))
   }
 
   static fetchIndividual(podcasts, counter, window) {
@@ -116,16 +115,16 @@ class PodcastController {
     .then(this.processFeed)
     .then((res) => {
       EpisodesController.batch(res.episodes, pod.id)
-      Messenger.send('model.changed.Episode', true);
+      Messenger.send('model.changed.Episode', true)
       counter++
       this.fetchIndividual(podcasts, counter, window)
     })
   }
 
   static fetch() {
-    if(Podcast.chain().size().value() == 0) return
+    if(Podcast.chain().size().value() === 0) return
     Logger.info('Fetch for new episodes has ben started')
-    Messenger.send('notify.fetch.started', true);
+    Messenger.send('notify.fetch.started', true)
     this.fetchIndividual(Podcast.chain().value(), 0)
   }
 

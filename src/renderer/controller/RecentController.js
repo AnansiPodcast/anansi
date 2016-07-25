@@ -1,28 +1,29 @@
-const Episode = remote.require('./browser/model/Episode.js');
-const Podcast = remote.require('./browser/model/Podcast.js');
+const Episode = remote.require('./browser/model/Episode.js')
+const Podcast = remote.require('./browser/model/Podcast.js')
 
 app.controller('RecentController', ['$scope', '$rootScope', ($scope, $rootScope) => {
 
-  var podcasts = [];
+  let podcasts = []
+  , getEpisodes
 
-  function getEpisodes() {
-    var eps = Episode
+  getEpisodes = function() {
+    let handleEps = []
+      , eps = Episode
       .chain()
-      .sortBy('published_time')
+      .sortBy('publishedTime')
       .reverse()
       .take(100)
       .value()
-    var _eps = []
     eps.forEach((item) => {
-      if(typeof podcasts[item.podcast_id] == 'undefined')
-        podcasts[item.podcast_id] = Podcast.find({ id: item.podcast_id })
-      item.podcast = podcasts[item.podcast_id]
-      _eps.push(item)
+      if(typeof podcasts[item.podcastId] === 'undefined')
+        podcasts[item.podcastId] = Podcast.find({ id: item.podcastId })
+      item.podcast = podcasts[item.podcastId]
+      handleEps.push(item)
     })
-    return _eps;
+    return handleEps
   }
 
-  $scope.episodes = getEpisodes();
+  $scope.episodes = getEpisodes()
 
   ipcRenderer.on('model.changed.Episode', (event, arg) => {
     $scope.episodes = getEpisodes()
@@ -35,7 +36,7 @@ app.controller('RecentController', ['$scope', '$rootScope', ($scope, $rootScope)
   })
 
   $scope.play = (episode) => {
-    $rootScope.$broadcast('episode.play', episode);
+    $rootScope.$broadcast('episode.play', episode)
   }
 
-}]);
+}])

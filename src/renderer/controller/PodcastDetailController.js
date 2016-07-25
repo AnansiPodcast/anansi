@@ -1,6 +1,6 @@
-const Podcast = remote.require('./browser/model/Podcast.js');
-const Episode = remote.require('./browser/model/Episode.js');
-const PodcastController = remote.require('./browser/controller/PodcastController.js');
+const Podcast = remote.require('./browser/model/Podcast.js')
+const Episode = remote.require('./browser/model/Episode.js')
+const PodcastController = remote.require('./browser/controller/PodcastController.js')
 
 app.controller('PodcastDetailController', ['$scope', '$rootScope', '$routeParams', '$location', ($scope, $rootScope, $routeParams, $location) => {
 
@@ -8,17 +8,17 @@ app.controller('PodcastDetailController', ['$scope', '$rootScope', '$routeParams
   $scope.podcast = Podcast.find({id: $routeParams.id})
   $scope.episodes = Episode
       .chain()
-      .filter({podcast_id: $routeParams.id})
-      .sortBy('published_time')
+      .filter({podcastId: $routeParams.id})
+      .sortBy('publishedTime')
       .reverse()
       .take(20)
-      .value();
+      .value()
 
   const moreEpisodes = function() {
     let newEps = Episode
         .chain()
-        .filter({podcast_id: $routeParams.id})
-        .sortBy('published_time')
+        .filter({podcastId: $routeParams.id})
+        .sortBy('publishedTime')
         .reverse()
         .take($scope.episodes.length + paginate)
         .slice($scope.episodes.length)
@@ -33,12 +33,12 @@ app.controller('PodcastDetailController', ['$scope', '$rootScope', '$routeParams
   }
 
   $scope.play = (episode) => {
-    $rootScope.$broadcast('episode.play', episode);
+    $rootScope.$broadcast('episode.play', episode)
   }
 
   $('.podcast-detail-list').parents('.pane.content').scroll((e) => {
-    if($(e.target).scrollTop() >= ($('.podcast-detail-list').height() - 400))
+    if($(e.target).scrollTop() >= $('.podcast-detail-list').height() - 400)
       moreEpisodes()
   })
 
-}]);
+}])

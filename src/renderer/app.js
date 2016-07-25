@@ -4,20 +4,20 @@ const remote = Electron.remote
 const ipcRenderer = Electron.ipcRenderer
 const uuid = remote.require('uuid')
 const app = angular.module('podcast-desktop', ['ngRoute'])
-const PodcastController = remote.require('./browser/controller/PodcastController.js');
+const PodcastController = remote.require('./browser/controller/PodcastController.js')
 
 app.filter('no_html', function() {
   return function(input) {
-    input = input || '';
-    return $('<div>'+input+'</div>').text()
-  };
+    input = input || ''
+    return $(`<div>${input}</div>`).text()
+  }
 })
 
-alertify.logPosition("top right")
+alertify.logPosition('top right')
 
 Amplitude.init({
   'dynamic_mode': true,
-  'default_album_art': "assets/images/no-cover.png"
+  'default_album_art': 'assets/images/no-cover.png'
 })
 
 window.onbeforeunload = (e) => {
@@ -25,28 +25,28 @@ window.onbeforeunload = (e) => {
 }
 
 app.config(['$routeProvider', $routeProvider => {
-  $routeProvider.
-    when('/search', {
+  $routeProvider
+    .when('/search', {
       templateUrl: 'renderer/view/itunes-search.html',
       controller: 'ItunesSearchController'
-    }).
-    when('/recent', {
+    })
+    .when('/recent', {
       templateUrl: 'renderer/view/recent.html',
       controller: 'RecentController'
-    }).
-    when('/podcast/:id', {
+    })
+    .when('/podcast/:id', {
       templateUrl: 'renderer/view/podcast.html',
       controller: 'PodcastDetailController'
-    }).
-    when('/preferences', {
+    })
+    .when('/preferences', {
       templateUrl: 'renderer/view/preferences.html',
       controller: 'PreferencesController'
-    }).
-    when('/welcome', {
+    })
+    .when('/welcome', {
       templateUrl: 'renderer/view/welcome.html',
       controller: 'PodcastListController'
-    }).
-    otherwise({
+    })
+    .otherwise({
       redirectTo: '/recent'
     })
 }])
@@ -81,9 +81,9 @@ ipcRenderer.on('ui.menu.preferences', () => {
 
 // Notifications
 ipcRenderer.on('notify.fetch.started', () => {
-  alertify.success("Searching for new episodes");
+  alertify.success('Searching for new episodes')
 })
 
 ipcRenderer.on('notify.fetch.ended', () => {
-  alertify.success("Episodes up to date");
+  alertify.success('Episodes up to date')
 })

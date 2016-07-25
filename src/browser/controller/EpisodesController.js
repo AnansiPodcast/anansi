@@ -6,25 +6,27 @@ const Logger = ConfigController.logger()
 
 class EpisodesController {
 
-  static batch(items, podcast_id) {
+  static batch(items, podcastId) {
     let selected = []
-    const existents = Episode.chain().filter({podcast_id: podcast_id}).value().map(ep => ep.guid)
-    items.filter(i => existents.indexOf(i.guid) == -1).forEach((item) => {
+    const existents = Episode.chain().filter({podcastId: podcastId}).value().map(ep => ep.guid)
+
+    items.filter(i => existents.indexOf(i.guid) === -1).forEach((item) => {
       selected.push(Merge(item, {
-        podcast_id: podcast_id,
-        published_time: new Date(item.published).getTime()
+        podcastId: podcastId,
+        publishedTime: new Date(item.published).getTime()
       }))
     })
 
-    if(selected.length == 0) return
-    Logger.info(`Adding ${selected.length} new episodes to ${podcast_id}`)
+    if(selected.length === 0) return
+    Logger.info(`Adding ${selected.length} new episodes to ${podcastId}`)
     Episode.push(...selected)
   }
 
-  static saveEpisodeState(state, episode_id) {
-    let episode = Episode.find({guid: episode_id})
+  static saveEpisodeState(state, episodeId) {
+    let episode = Episode.find({guid: episodeId})
+
     episode.state = state
-    Episode.remove({ guid: episode_id})
+    Episode.remove({ guid: episodeId})
     Episode.push(episode)
   }
 
