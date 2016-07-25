@@ -11,7 +11,7 @@ describe('ConfigController', () => {
     })
 
     it('should return default values', () => {
-      expect(ConfigController.get('fetch_episode_interval')).to.be(3600000)
+      expect(ConfigController.get('fetchEpisodeInterval')).to.be(3600000)
     })
 
   })

@@ -10,9 +10,10 @@ class Initializer {
   }
 
   emptyFileLog() {
-    if(process.env.NODE_ENV != 'development') {
-      var app = require('electron').app
-      const logPath = app.getPath('appData') + '/'+app.getName()+'/log'
+    let app
+    if(process.env.NODE_ENV !== 'development') {
+      app = require('electron').app
+      const logPath = `${app.getPath('appData')}/${app.getName()}/log`
       try {
         fs.accessSync(logPath)
         fs.unlinkSync(logPath)

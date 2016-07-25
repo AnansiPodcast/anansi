@@ -1,26 +1,29 @@
-const loadElectron = (typeof process.versions['electron'] !== 'undefined')
+const loadElectron = typeof process.versions.electron !== 'undefined'
 let instance = null
+  , Windows
 
-if(loadElectron) var Windows = require('./windows.js')
+if(loadElectron) Windows = require('./windows.js')
 
 class Messenger {
 
   constructor() {
     if(!instance) {
       this.callbacks = []
-      instance = this
+      instance = this // eslint-disable-line consistent-this
     }
-    return instance;
+    return instance
   }
 
   listen(key, callback) {
-    if(typeof this.callbacks[key] == 'undefined') this.callbacks[key] = []
+    if(typeof this.callbacks[key] === 'undefined') this.callbacks[key] = []
     this.callbacks[key].push(callback)
   }
 
   _triggerListeners(key, value) {
-    if(typeof this.callbacks[key] == 'undefined') return
-    this.callbacks[key].forEach((cb) => { cb(value) })
+    if(typeof this.callbacks[key] === 'undefined') return
+    this.callbacks[key].forEach((cb) => {
+      cb(value)
+    })
   }
 
   clearCallbacks(keys) {

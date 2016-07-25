@@ -39,7 +39,7 @@ describe('PodcastController', () => {
 
     it('should add Episodes with the Podcast', () => {
       let pod = Podcast.chain().value()[0]
-      let episodes = Episode.chain().filter({podcast_id: pod.id}).value()
+      let episodes = Episode.chain().filter({podcastId: pod.id}).value()
       expect(episodes).to.be.an('array')
     })
 
@@ -94,8 +94,8 @@ describe('PodcastController', () => {
     }).timeout(20000)
 
     it('should trigger fetch for new episodes every 10 seconds', (done) => {
-      ConfigController.set('first_fetch_timeout', false)
-      ConfigController.set('fetch_episode_interval', 1000)
+      ConfigController.set('firstFetchTimeout', false)
+      ConfigController.set('fetchEpisodeInterval', 1000)
       let counter = 0
       let started_time = new Date().getTime()
       Messenger.listen('notify.fetch.started', (result) => {

@@ -1,2 +1,2 @@
 import {db} from './model.js'
-module.exports = db('podcasts');
+module.exports = db('podcasts')
