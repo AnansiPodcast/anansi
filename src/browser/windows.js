@@ -5,8 +5,8 @@ class Windows {
 
   constructor() {
     if(!instance)
-      instance = this
-    return instance;
+      instance = this // eslint-disable-line consistent-this
+    return instance
   }
 
   openMain() {
@@ -18,12 +18,12 @@ class Windows {
       minHeight: 600,
       acceptFirstMouse: true,
       frame: false
-    });
+    })
 
-    this.mainWindow.loadURL('file://' + __dirname + '/../index.html');
+    this.mainWindow.loadURL(`file://${__dirname}/../index.html`)
     this.mainWindow.on('closed', () => {
-      app.quit();
-    });
+      app.quit()
+    })
 
   }
 

@@ -10,7 +10,7 @@ import Podcast from '../model/Podcast.js'
 class PopulateController {
 
   static dialogHandler(window, options, parameters) {
-    const deferred = Q.defer();
+    const deferred = Q.defer()
     dialog[parameters.method](window, merge(options, parameters.defaults), function(files) {
       if(typeof files !== 'undefined') deferred.resolve(files)
     })
@@ -32,9 +32,9 @@ class PopulateController {
   }
 
   static parseOPML(content) {
-    const deferred = Q.defer();
+    const deferred = Q.defer()
     parseOpml(content, (err, items) => {
-      (err) ? deferred.reject(err) : deferred.resolve(items)
+      err ? deferred.reject(err) : deferred.resolve(items)
     })
     return deferred.promise
   }

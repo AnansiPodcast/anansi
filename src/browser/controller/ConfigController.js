@@ -10,21 +10,20 @@ class ConfigController {
 
   _getDefaultValues() {
     return {
-      update_channel: 'stable',
-      update_interval: 60 * 60 * 1000,
-      default_value: true,
-      first_fetch_timeout: 5000,
-      fetch_episode_interval: 60 * 60 * 1000
+      updateChannel: 'stable',
+      updateInterval: 60 * 60 * 1000,
+      firstFetchTimeout: 5000,
+      fetchEpisodeInterval: 60 * 60 * 1000
     }
   }
 
   _getDefaultDocument() {
-    if(Config.size() == 0) Config.push(this._getDefaultValues())
+    if(Config.size() === 0) Config.push(this._getDefaultValues())
     return Config.chain().first().value()
   }
 
   get(key) {
-    if(typeof this.document[key] === 'undefined') throw new Error('Invalid Config key!')
+    if(typeof this.document[key] === 'undefined') throw new Error(`Invalid Config key ${key}!`)
     return this.document[key]
   }
 
@@ -36,16 +35,17 @@ class ConfigController {
 
   logger() {
     let transports = []
-    if(process.env.NODE_ENV == 'development') {
-      transports.push(new (winston.transports.Console)())
-    } else if(process.env.NODE_ENV !== 'test') {
-      var app = require('electron').app
-      transports.push(new (winston.transports.File)({filename: app.getPath('appData') + '/'+app.getName()+'/log'}))
+      , app
+    if(process.env.NODE_ENV === 'development')
+      transports.push(new winston.transports.Console())
+    else if(process.env.NODE_ENV !== 'test') {
+      app = require('electron').app
+      transports.push(new winston.transports.File({filename: app.getPath('appData') + '/' + app.getName() + '/log'}))
     }
     if(!this._logger)
-      this._logger = new (winston.Logger)({
+      this._logger = new winston.Logger({
         transports: transports
-      });
+      })
     return this._logger
   }
 
