@@ -15,6 +15,16 @@ class AppMenu {
 
   setupTemplate() {
     this.template = defaultMenu()
+
+    // Adding the Preferences menu item
+    this.template[0].submenu.splice(2, 0, {
+      label: 'Preferences',
+      accelerator: 'Cmd+,',
+      click: (menuItem, focusedWindow) => {
+        this.mainWindow.webContents.send('ui.menu.preferences', true)
+      }
+    }, {type: 'separator'})
+
     this.addMenu(1, 'File', [
       {
         label: 'Add Podcast by URL',
@@ -38,7 +48,6 @@ class AppMenu {
         }
       }
     ])
-
   }
 
   addMenu(position, name, items) {
