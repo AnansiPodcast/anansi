@@ -38,6 +38,10 @@ app.config(['$routeProvider', $routeProvider => {
       templateUrl: 'renderer/view/podcast.html',
       controller: 'PodcastDetailController'
     }).
+    when('/preferences', {
+      templateUrl: 'renderer/view/preferences.html',
+      controller: 'PreferencesController'
+    }).
     when('/welcome', {
       templateUrl: 'renderer/view/welcome.html',
       controller: 'PodcastListController'
@@ -68,6 +72,11 @@ document.querySelector('#add-subscription').addEventListener('click', () => {
 
 document.querySelector('#refresh').addEventListener('click', () => {
   PodcastController.fetch()
+})
+
+// Menu items
+ipcRenderer.on('ui.menu.preferences', () => {
+  location.href = '#/preferences'
 })
 
 // Notifications
