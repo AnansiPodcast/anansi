@@ -6,26 +6,27 @@ import fs from 'fs'
 import merge from 'merge'
 import PodcastController from './PodcastController.js'
 import Podcast from '../model/Podcast.js'
+import Windows from '../windows.js'
 
 class PopulateController {
 
-  static dialogHandler(window, options, parameters) {
+  static dialogHandler(options, parameters) {
     const deferred = Q.defer()
-    dialog[parameters.method](window, merge(options, parameters.defaults), function(files) {
+    dialog[parameters.method](Windows.mainWindow, merge(options, parameters.defaults), function(files) {
       if(typeof files !== 'undefined') deferred.resolve(files)
     })
     return deferred.promise
   }
 
-  static openFile(window, options) {
-    return PopulateController.dialogHandler(window, options, {
+  static openFile(options) {
+    return PopulateController.dialogHandler(options, {
       method: 'showOpenDialog',
       defaults: { properties: ['openFile'] }
     }).then(i => i[0])
   }
 
-  static saveFile(window, options) {
-    return PopulateController.dialogHandler(window, options, {
+  static saveFile(options) {
+    return PopulateController.dialogHandler(options, {
       method: 'showSaveDialog',
       defaults: { buttonLabel: 'Save', }
     })
@@ -55,8 +56,8 @@ class PopulateController {
     }, outline)
   }
 
-  static importOPML(window) {
-    PopulateController.openFile(window, {
+  static importOPML() {
+    PopulateController.openFile({
       title: 'Import OPML file',
       buttonLabel: 'Import',
       filters: [
@@ -72,8 +73,8 @@ class PopulateController {
     })
   }
 
-  static exportOPML(window) {
-    PopulateController.saveFile(window, {
+  static exportOPML() {
+    PopulateController.saveFile({
       filters: [
         {name: 'OPML', extensions: ['opml']},
       ]

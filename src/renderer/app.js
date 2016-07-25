@@ -75,8 +75,8 @@ document.querySelector('#refresh').addEventListener('click', () => {
 })
 
 // Menu items
-ipcRenderer.on('ui.menu.preferences', () => {
-  location.href = '#/preferences'
+ipcRenderer.on('ui.navigate', (e, url) => {
+  location.href = url
 })
 
 // Notifications

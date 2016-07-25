@@ -4,11 +4,11 @@ import Dialogs from 'dialogs'
 import Windows from './windows.js'
 import PopulateController from './controller/PopulateController.js'
 import PodcastController from './controller/PodcastController.js'
+import NavigateController from './controller/NavigateController.js'
 
 class AppMenu {
 
   constructor() {
-    this.mainWindow = Windows.mainWindow
     this.setupTemplate()
     this.build()
   }
@@ -21,7 +21,7 @@ class AppMenu {
       label: 'Preferences',
       accelerator: 'Cmd+,',
       click: (menuItem, focusedWindow) => {
-        this.mainWindow.webContents.send('ui.menu.preferences', true)
+        NavigateController.to('/preferences')
       }
     }, {type: 'separator'})
 
@@ -38,13 +38,13 @@ class AppMenu {
       {
         label: 'Import OPML',
         click: (item, focusedWindow) => {
-          PopulateController.importOPML(this.mainWindow)
+          PopulateController.importOPML()
         }
       },
       {
         label: 'Export Subscriptions to OPML',
         click: (item, focusedWindow) => {
-          PopulateController.exportOPML(this.mainWindow)
+          PopulateController.exportOPML()
         }
       }
     ])
