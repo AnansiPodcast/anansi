@@ -20,8 +20,8 @@
     "preversion": "npm test",
     "postversion": "npm run dist",
     "test": "rm db.json; NODE_ENV=test mocha --require babel-core/register --reporter dot --timeout 10000 spec/controller",
-    "linter": "eslint -c ./eslint.json ./src",
-    "dump_db": "rm ~/Library/Application\\ Support/db.json"
+    "linter": "eslint ./src",
+    "dump_db": "rm ~/Library/Application\\ Support/Electron/db.json"
   },
   "repository": {
     "type": "git",
