@@ -12,6 +12,7 @@ import PodcastHelper from '../helper/PodcastHelper.js'
 import Messenger from '../messenger.js'
 import Queue from '../queue.js'
 import FetchEpisodes from '../tasks/FetchEpisodes.js'
+import DownloadPodcastCover from '../tasks/DownloadPodcastCover.js'
 const Logger = ConfigController.logger()
 
 class PodcastController {
@@ -62,11 +63,13 @@ class PodcastController {
       name: pod.title,
       description: pod.description,
       image: pod.image,
-      categories: pod.categories
+      categories: pod.categories,
+      downloadedCover: false
     })
 
     Logger.info(`${pod.title} added. Adding episodes...`)
     EpisodesController.batch(pod.episodes, id)
+    Queue.push(new DownloadPodcastCover(Podcast.find({id: id})))
     Messenger.send('podcast.model.changed', true)
 
     return true
@@ -87,6 +90,7 @@ class PodcastController {
     Logger.info('Fetch for new episodes has ben started')
     Messenger.send('notify.fetch.started', true)
     Podcast.chain().value().forEach((i) => Queue.push(new FetchEpisodes(i)) )
+    Podcast.chain().filter({downloadedCover: false}).value().forEach((i) => Queue.push(new DownloadPodcastCover(i)) )
   }
 
 }

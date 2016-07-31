@@ -13,7 +13,8 @@ class EpisodesController {
     items.filter(i => existents.indexOf(i.guid) === -1).forEach((item) => {
       selected.push(Merge(item, {
         podcastId: podcastId,
-        publishedTime: new Date(item.published).getTime()
+        publishedTime: new Date(item.published).getTime(),
+        downloadedCover: false
       }))
     })
 
