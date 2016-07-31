@@ -1,6 +1,5 @@
 import Q from 'q'
 import HTTP from 'q-io/http'
-import Parser from 'node-podcast-parser'
 import Validator from 'validator'
 import uuid from 'uuid'
 import validator from 'validator'
@@ -9,7 +8,10 @@ import Episode from '../model/Episode.js'
 import EpisodesController from './EpisodesController.js'
 import DialogController from './DialogController.js'
 import ConfigController from './ConfigController.js'
+import PodcastHelper from '../helper/PodcastHelper.js'
 import Messenger from '../messenger.js'
+import Queue from '../queue.js'
+import FetchEpisodes from '../tasks/FetchEpisodes.js'
 const Logger = ConfigController.logger()
 
 class PodcastController {
@@ -26,8 +28,8 @@ class PodcastController {
       return
     }
     Logger.info(`Adding a new Podcast with URL ${url}`)
-    return this.getFeed(url)
-    .then(this.processFeed)
+    return PodcastHelper.getFeed(url)
+    .then(PodcastHelper.processFeed)
     .then((podcast) => {
       return this.insert(podcast, url)
     })
@@ -39,16 +41,6 @@ class PodcastController {
     Messenger.send('podcast.model.changed', true)
   }
 
-  static getFeed(url) {
-    Logger.info(`Getting feed for ${url}`)
-    return HTTP.read({
-      url: url,
-      method: 'GET'
-    }).then((response) => {
-      return response.toString()
-    })
-  }
-
   static searchOnItunes(term) {
     return HTTP.read({
       url: `https://itunes.apple.com/search?media=podcast&term=${term}`,
@@ -56,19 +48,6 @@ class PodcastController {
     }).then((data) => {
       return JSON.parse(data.toString())
     })
-  }
-
-  static processFeed(response) {
-    Logger.info('Processing feed')
-    const deferred = Q.defer()
-    Parser(response, (err, data) => {
-      if (err) {
-        DialogController.error('Invalid Podcast Feed', "We can't parse this feed as an Podcast feed")
-        deferred.reject(new Error(err))
-      } else
-        deferred.resolve(data)
-    })
-    return deferred.promise
   }
 
   static insert(pod, url) {
@@ -103,29 +82,11 @@ class PodcastController {
     }, ConfigController.get('fetchEpisodeInterval'))
   }
 
-  static fetchIndividual(podcasts, counter, window) {
-    if(typeof podcasts[counter] === 'undefined') {
-      Logger.info('Fetch for new episodes has ben ended')
-      Messenger.send('notify.fetch.ended', true)
-      return
-    }
-    const pod = podcasts[counter]
-    Logger.info(`Fetching new episodes for ${pod.name}`)
-    return this.getFeed(pod.url)
-    .then(this.processFeed)
-    .then((res) => {
-      EpisodesController.batch(res.episodes, pod.id)
-      Messenger.send('model.changed.Episode', true)
-      counter++
-      this.fetchIndividual(podcasts, counter, window)
-    })
-  }
-
   static fetch() {
     if(Podcast.chain().size().value() === 0) return
     Logger.info('Fetch for new episodes has ben started')
     Messenger.send('notify.fetch.started', true)
-    this.fetchIndividual(Podcast.chain().value(), 0)
+    Podcast.chain().value().forEach((i) => Queue.push(new FetchEpisodes(i)) )
   }
 
 }
