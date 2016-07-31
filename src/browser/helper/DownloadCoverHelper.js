@@ -1,12 +1,16 @@
-import {app} from 'electron'
+const loadElectron = typeof process.versions.electron !== 'undefined'
+
 import Q from 'q'
 import fs from 'fs'
 import path from 'path'
 import request from 'request'
 import Puid from 'puid'
 
-let puid = new Puid()
-const imagesPath = `${app.getPath('appData')}/${app.getName()}/images`
+let app
+  , puid = new Puid()
+
+if(loadElectron) app = require('electron').app
+const imagesPath = loadElectron ? `${app.getPath('appData')}/${app.getName()}/images` : 'images'
 
 class DownloadCoverHelper {
 

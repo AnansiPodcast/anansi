@@ -13,6 +13,7 @@ import Messenger from '../messenger.js'
 import Queue from '../queue.js'
 import FetchEpisodes from '../tasks/FetchEpisodes.js'
 import DownloadPodcastCover from '../tasks/DownloadPodcastCover.js'
+import DownloadEpisodeCover from '../tasks/DownloadEpisodeCover.js'
 const Logger = ConfigController.logger()
 
 class PodcastController {
@@ -55,6 +56,7 @@ class PodcastController {
 
     const id = uuid()
     const existent = Podcast.find({url: url})
+    let podcast
     if(existent) return
 
     Podcast.push({
@@ -67,9 +69,11 @@ class PodcastController {
       downloadedCover: false
     })
 
+    podcast = Podcast.find({id: id})
     Logger.info(`${pod.title} added. Adding episodes...`)
     EpisodesController.batch(pod.episodes, id)
-    Queue.push(new DownloadPodcastCover(Podcast.find({id: id})))
+    Queue.push(new DownloadPodcastCover(podcast))
+    Episode.chain().filter({podcastId: id}).map((e) => Queue.push(new DownloadEpisodeCover(e)))
     Messenger.send('podcast.model.changed', true)
 
     return true
@@ -91,6 +95,7 @@ class PodcastController {
     Messenger.send('notify.fetch.started', true)
     Podcast.chain().value().forEach((i) => Queue.push(new FetchEpisodes(i)) )
     Podcast.chain().filter({downloadedCover: false}).value().forEach((i) => Queue.push(new DownloadPodcastCover(i)) )
+    Episode.chain().filter({downloadedCover: false}).value().forEach((i) => Queue.push(new DownloadEpisodeCover(i)) )
   }
 
 }

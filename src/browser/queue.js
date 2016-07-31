@@ -47,7 +47,7 @@ class Queue {
 
   runNext() {
     this.running = true
-    this.getCurrent().run().then((a) => {
+    this.getCurrent().run().then(() => {
       this.getCurrent().done()
       this.removeFirst()
       this.setupNext()
