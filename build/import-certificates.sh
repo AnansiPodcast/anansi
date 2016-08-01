@@ -1,6 +1,6 @@
 #!/bin/sh
 
-FOLDER=$(pwd)
+FOLDER=~/Dropbox/Anansi
 KEYCHAIN_PASSWORD=circleci
 KEY_CHAIN=ios-build.keychain
 
