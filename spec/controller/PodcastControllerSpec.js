@@ -1,5 +1,6 @@
 import expect from 'expect.js'
 import PodcastController from '../../src/browser/controller/PodcastController.js'
+import PodcastHelper from '../../src/browser/helper/PodcastHelper.js'
 import ConfigController from '../../src/browser/controller/ConfigController.js'
 import Podcast from '../../src/browser/model/Podcast.js'
 import Episode from '../../src/browser/model/Episode.js'
@@ -68,12 +69,12 @@ describe('PodcastController', () => {
   describe('Fetch new episodes', () => {
 
     it('should trigger the `notify.fetch.started` and `notify.fetch.ended` events', (done) => {
-      Messenger.listen('notify.fetch.started', (result) => {
+      Messenger.listen('queue.fetch-episodes.started', (result) => {
         expect(result).to.be.ok();
       })
-      Messenger.listen('notify.fetch.ended', (result) => {
+      Messenger.listen('queue.fetch-episodes.ended', (result) => {
         expect(result).to.be.ok();
-        Messenger.clearCallbacks(['notify.fetch.started', 'notify.fetch.ended'])
+        Messenger.clearCallbacks(['queue.fetch-episodes.started', 'queue.fetch-episodes.ended'])
         done()
       })
       PodcastController.fetch()
@@ -81,16 +82,16 @@ describe('PodcastController', () => {
 
     it('should fetch for new episodes after 5 seconds', (done) => {
       const started_time = new Date().getTime()
-      PodcastController.scheduleFetch()
-      Messenger.listen('notify.fetch.started', (result) => {
+      Messenger.listen('queue.fetch-episodes.started', (result) => {
         const finished_time = new Date().getTime()
         expect(finished_time - started_time).to.be.greaterThan(4999)
         expect(finished_time - started_time).to.be.lessThan(5050)
       })
-      Messenger.listen('notify.fetch.ended', () => {
-        Messenger.clearCallbacks(['notify.fetch.started', 'notify.fetch.ended'])
+      Messenger.listen('queue.fetch-episodes.ended', () => {
+        Messenger.clearCallbacks(['queue.fetch-episodes.started', 'queue.fetch-episodes.ended'])
         done()
       })
+      PodcastController.scheduleFetch(false)
     }).timeout(20000)
 
     it('should trigger fetch for new episodes every 10 seconds', (done) => {
@@ -98,18 +99,18 @@ describe('PodcastController', () => {
       ConfigController.set('fetchEpisodeInterval', 1000)
       let counter = 0
       let started_time = new Date().getTime()
-      Messenger.listen('notify.fetch.started', (result) => {
+      Messenger.listen('fetch-episodes.started', (result) => {
         let finished_time = new Date().getTime()
         expect(finished_time - started_time).to.be.greaterThan(999)
         expect(finished_time - started_time).to.be.lessThan(1050)
         counter++
         started_time = finished_time
         if(counter == 3) {
-          Messenger.clearCallbacks(['notify.fetch.started', 'notify.fetch.ended'])
+          Messenger.clearCallbacks(['fetch-episodes.started'])
           done()
         }
       })
-      PodcastController.scheduleFetch()
+      PodcastController.scheduleFetch(false)
     }).timeout(60000)
 
   })
@@ -132,9 +133,9 @@ describe('PodcastController', () => {
   describe('Getting Feed from URL', () => {
 
     it('should retrieve the Feed content by URL', (done) => {
-      PodcastController.getFeed(feed_iradex).then((feed) => {
+      PodcastHelper.getFeed(feed_iradex).then((feed) => {
         expect(feed).to.be.an('string')
-        PodcastController.processFeed(feed).then((processed) => {
+        PodcastHelper.processFeed(feed).then((processed) => {
           expect(processed).to.be.an('object')
           expect(processed).to.have.property('title')
           expect(processed).to.have.property('description')

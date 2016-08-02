@@ -7,6 +7,8 @@ import merge from 'merge'
 import PodcastController from './PodcastController.js'
 import Podcast from '../model/Podcast.js'
 import Windows from '../windows.js'
+import Queue from '../queue.js'
+import AddPodcastFromOPML from '../tasks/AddPodcastFromOPML.js'
 
 class PopulateController {
 
@@ -67,9 +69,9 @@ class PopulateController {
     .then(file => fs.readFileSync(file, 'utf-8'))
     .then(PopulateController.parseOPML)
     .then(items => {
-      return Q.all(items.map(item => {
-        return PodcastController.add(item.feedUrl)
-      }))
+      items.map(item => {
+        Queue.push(new AddPodcastFromOPML(item.feedUrl))
+      })
     })
   }
 
