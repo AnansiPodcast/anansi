@@ -13,6 +13,8 @@ class Queue {
 
   setup() {
     this.tasks = []
+    this.pendingCounter = {}
+    this.ranCounter = {}
     this.running = false
   }
 
@@ -25,19 +27,49 @@ class Queue {
     return true
   }
 
-  start() {
-    if(this.tasks.length > 0) {
-      Messenger.send('queue.started', true)
-      this.runNext()
+  incrementQueue(queue) {
+    if(!this.pendingCounter[queue]) {
+      this.pendingCounter[queue] = 0
+      this.ranCounter[queue] = 0
+    }
+    this.pendingCounter[queue] = this.pendingCounter[queue] + 1
+  }
+
+  incrementRuns(queue) {
+    if(this.ranCounter[queue] === 0)
+      Messenger.send(`queue.${queue}.started`, true)
+    this.ranCounter[queue] = this.ranCounter[queue] + 1
+  }
+
+  decrementQueue(queue) {
+    this.pendingCounter[queue] = this.pendingCounter[queue] - 1
+    if(this.pendingCounter[queue] === 0){
+      this.ranCounter[queue] = 0
+      Messenger.send(`queue.${queue}.ended`, true)
     }
   }
 
-  push(task) {
-    if(this.valid(task)) this.tasks.push(task)
-    if(this.valid(task) && !this.running) this.start()
+  start() {
+    if(this.tasks.length > 0)
+      this.runNext()
+  }
+
+  pushTo(queue, task) {
+    this.push(task, queue)
+  }
+
+  push(task, queue = 'generic') {
+    if(!this.valid(task)) return
+    this.tasks.push({
+      task: task,
+      queue: queue
+    })
+    this.incrementQueue(queue)
+    if(!this.running) this.start()
   }
 
   removeFirst() {
+    this.decrementQueue(this.getCurrent().queue)
     this.tasks.splice(0, 1)
   }
 
@@ -47,20 +79,20 @@ class Queue {
 
   runNext() {
     this.running = true
-    this.getCurrent().run().then(() => {
-      this.getCurrent().done()
+    this.incrementRuns(this.getCurrent().queue)
+    this.getCurrent().task.run().then(() => {
+      this.getCurrent().task.done()
       this.removeFirst()
       this.setupNext()
     }).catch((e) => {
-      this.getCurrent().error(e)
+      this.getCurrent().task.error(e)
     })
   }
 
   setupNext() {
-    if(this.tasks.length === 0) {
+    if(this.tasks.length === 0)
       this.running = false
-      Messenger.send('queue.ended', true)
-    } else
+    else
       this.runNext()
   }
 

@@ -1,3 +1,4 @@
+import Q from 'q'
 import Task from './task.js'
 import Messenger from '../messenger.js'
 import Podcast from '../model/Podcast.js'
@@ -14,10 +15,15 @@ class DownloadPodcastCover extends Task {
   }
 
   done() {
-    Messenger.send('podcast.model.changed', true)
+    Messenger.send('podcast.covers.updated', true)
   }
 
   run() {
+    if(typeof this.podcast.image === 'undefined' || this.podcast.downloadedCover === true){
+      const deferred = Q.defer()
+      setTimeout(() => deferred.resolve(), 10)
+      return deferred.promise
+    }
     Logger.info(`Downloading cover for ${this.podcast.name}`)
     return DownloadCoverHelper.download(this.podcast.image)
     .then((path) => {

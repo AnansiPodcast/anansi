@@ -72,30 +72,32 @@ class PodcastController {
     podcast = Podcast.find({id: id})
     Logger.info(`${pod.title} added. Adding episodes...`)
     EpisodesController.batch(pod.episodes, id)
-    Queue.push(new DownloadPodcastCover(podcast))
-    Episode.chain().filter({podcastId: id}).map((e) => Queue.push(new DownloadEpisodeCover(e)))
+    Queue.push(new DownloadPodcastCover(podcast), 'download-cover')
+    Episode.chain().filter({podcastId: id}).map((e) => Queue.push(new DownloadEpisodeCover(e), 'download-cover'))
     Messenger.send('podcast.model.changed', true)
 
     return true
   }
 
-  static scheduleFetch() {
+  static scheduleFetch(withCovers = true) {
     if(ConfigController.get('firstFetchTimeout') !== false)
       setTimeout(() => {
-        this.fetch()
+        this.fetch(withCovers)
       }, ConfigController.get('firstFetchTimeout'))
     setInterval(() => {
-      this.fetch()
+      this.fetch(withCovers)
     }, ConfigController.get('fetchEpisodeInterval'))
   }
 
-  static fetch() {
+  static fetch(withCovers) {
     if(Podcast.chain().size().value() === 0) return
+    Messenger.send('fetch-episodes.started', true)
     Logger.info('Fetch for new episodes has ben started')
-    Messenger.send('notify.fetch.started', true)
-    Podcast.chain().value().forEach((i) => Queue.push(new FetchEpisodes(i)) )
-    Podcast.chain().filter({downloadedCover: false}).value().forEach((i) => Queue.push(new DownloadPodcastCover(i)) )
-    Episode.chain().filter({downloadedCover: false}).value().forEach((i) => Queue.push(new DownloadEpisodeCover(i)) )
+    Podcast.chain().value().forEach((i) => Queue.push(new FetchEpisodes(i), 'fetch-episodes') )
+    if(withCovers) {
+      Podcast.chain().filter({downloadedCover: false}).value().forEach((i) => Queue.push(new DownloadPodcastCover(i), 'download-cover') )
+      Episode.chain().filter({downloadedCover: false}).value().forEach((i) => Queue.push(new DownloadEpisodeCover(i), 'download-cover') )
+    }
   }
 
 }

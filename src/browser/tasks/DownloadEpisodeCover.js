@@ -1,7 +1,7 @@
 import Task from './task.js'
 import Q from 'q'
 import Messenger from '../messenger.js'
-import Episode from '../model/episode.js'
+import Episode from '../model/Episode.js'
 import DownloadCoverHelper from '../helper/DownloadCoverHelper'
 import ConfigController from '../controller/ConfigController.js'
 const Logger = ConfigController.logger()
@@ -15,11 +15,11 @@ class DownloadEpisodeCover extends Task {
   }
 
   done() {
-    Messenger.send('episode.model.changed', true)
+    Messenger.send('episode.covers.updated', true)
   }
 
   run() {
-    if(typeof this.episode.image === 'undefined'){
+    if(typeof this.episode.image === 'undefined' || this.episode.downloadedCover === true){
       const deferred = Q.defer()
       setTimeout(() => deferred.resolve(), 10)
       return deferred.promise
