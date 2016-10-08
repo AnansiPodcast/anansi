@@ -95,8 +95,17 @@ class PodcastController {
     Logger.info('Fetch for new episodes has ben started')
     Podcast.chain().value().forEach((i) => Queue.push(new FetchEpisodes(i), 'fetch-episodes') )
     if(withCovers) {
-      Podcast.chain().filter({downloadedCover: false}).value().forEach((i) => Queue.push(new DownloadPodcastCover(i), 'download-cover') )
-      Episode.chain().filter({downloadedCover: false}).value().forEach((i) => Queue.push(new DownloadEpisodeCover(i), 'download-cover') )
+      const podcasts = Podcast.chain()
+      podcasts.filter({downloadedCover: false}).value().forEach((i) => Queue.push(new DownloadPodcastCover(i), 'download-cover') )
+      podcasts.map((pod) => {
+        Episode
+          .chain()
+          .filter({podcastId: pod.id, downloadedCover: false})
+          .sortBy('publishedTime')
+          .reverse()
+          .take(20)
+          .value().forEach((i) => Queue.push(new DownloadEpisodeCover(i), 'download-cover') )
+      })
     }
   }
 
