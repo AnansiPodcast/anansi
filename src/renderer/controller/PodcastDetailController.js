@@ -5,6 +5,7 @@ const PodcastController = remote.require('./browser/controller/PodcastController
 app.controller('PodcastDetailController', ['$scope', '$rootScope', '$routeParams', '$location', ($scope, $rootScope, $routeParams, $location) => {
 
   let paginate = 20
+  const count = Episode.chain().filter({podcastId: $routeParams.id}).size().value()
   $scope.podcast = Podcast.find({id: $routeParams.id})
   $scope.episodes = Episode
       .chain()
@@ -15,6 +16,7 @@ app.controller('PodcastDetailController', ['$scope', '$rootScope', '$routeParams
       .value()
 
   const moreEpisodes = function() {
+    if($scope.episodes.length === count) return
     let newEps = Episode
         .chain()
         .filter({podcastId: $routeParams.id})
@@ -36,7 +38,7 @@ app.controller('PodcastDetailController', ['$scope', '$rootScope', '$routeParams
     $rootScope.$broadcast('episode.play', episode)
   }
 
-  $('.podcast-detail-list').parents('.pane.content').scroll((e) => {
+  $('#default-container').scroll((e) => {
     if($(e.target).scrollTop() >= $('.podcast-detail-list').height() - 400)
       moreEpisodes()
   })
