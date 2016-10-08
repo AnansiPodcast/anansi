@@ -15,6 +15,7 @@ app.controller('EpisodeDetailController', ['$scope', '$rootScope', '$sce', ($sco
     $scope.episode = episode;
     $scope.podcast = Podcast.find({id: episode.podcastId})
     var content = episode.description
+    if(content.indexOf('<br') == -1) content = content.replace(/(?:\r\n|\r|\n)/g, '<br />')
     $scope.content = $sce.trustAsHtml(content)
   })
 
