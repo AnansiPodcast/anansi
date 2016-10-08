@@ -71,8 +71,21 @@
           </ul>
         </div>
 
-        <div class="pane content">
-          <div ng-view></div>
+        <div id="main-container" class="pane content" ng-controller="PaneController">
+          <div id="default-container" ng-class="{half: episodeOpen}" ng-view></div>
+          <div ng-show="episodeOpen" id="episode-detail-pane" ng-controller="EpisodeDetailController">
+            <div ng-show="episode">
+              <img width="100%" ng-src="{{episode.image || podcast.image}}" alt="">
+              <h4>{{episode.title}}</h4>
+              <p>
+                Categories: {{episode.categories.join(', ')}} <br />
+                Published at {{episode.published | date: 'MMMM dd of yyyy'}}<br />
+                <button ng-click="browser()" class="btn btn-default">Open in Browser</button>
+              </p>
+              <div class="content" ng-bind-html="content"></div>
+            </div>
+            <div ng-hide="episode">No Episode selected</div>
+          </div>
         </div>
       </div>
     </div>

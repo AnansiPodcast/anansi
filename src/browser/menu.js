@@ -2,6 +2,7 @@ import {Menu} from 'electron'
 import defaultMenu from 'electron-default-menu'
 import Dialogs from 'dialogs'
 import Windows from './windows.js'
+import Messenger from './messenger.js'
 import PopulateController from './controller/PopulateController.js'
 import PodcastController from './controller/PodcastController.js'
 import NavigateController from './controller/NavigateController.js'
@@ -9,6 +10,11 @@ import NavigateController from './controller/NavigateController.js'
 class AppMenu {
 
   constructor() {
+    this.paneOpened = false
+    this.draw()
+  }
+
+  draw() {
     this.setupTemplate()
     this.build()
   }
@@ -48,11 +54,25 @@ class AppMenu {
         }
       }
     ])
+
+    this.pushToMenu(3, {
+      label: this.paneOpened ? 'Hide Episode Details' : 'Show Episode Details',
+      click: (item, focusedWindow) => {
+        this.paneOpened = this.paneOpened ? false : true
+        Messenger.send('toogleEpisodeDetail', this.paneOpened)
+        this.draw()
+      }
+    })
+
+  }
+
+  pushToMenu(position, item) {
+    this.template[position].submenu.push(item)
   }
 
   addMenu(position, name, items) {
     this.template.splice(position, 0, {
-      label: 'File',
+      label: name,
       submenu: items
     })
   }

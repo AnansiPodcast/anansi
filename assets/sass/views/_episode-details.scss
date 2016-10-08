@@ -1,0 +1,43 @@
+#main-container{
+  width: 100%;
+  overflow: hidden;
+}
+
+#default-container {
+  float: left;
+  width: 100%;
+  overflow-y: scroll;
+  height: 100%;
+
+  &.half {
+    width: 70%!important;
+  }
+}
+
+#episode-detail-pane {
+  float: right;
+  width: calc(((100% - 190px) / 100) * 30);
+  border-left: 1px solid #ccc;
+  padding-left: 10px;
+  position: fixed;
+  top: 45px;
+  right: 0;
+  height: calc(100% - 45px);
+  padding: 10px;
+  overflow-y: scroll;
+
+  .content a {
+    color: #69a2ff;
+    text-decoration: none;
+  }
+
+  button {
+    margin-top:8px;
+    margin-bottom: 10px;
+  }
+
+  h4 {
+    white-space: normal;
+  }
+
+}
